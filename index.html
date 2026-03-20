@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUNAQ — Identity for the Web3 Era</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#090b10;
+      --panel:rgba(255,255,255,0.05);
+      --line:rgba(255,255,255,0.10);
+      --text:#ffffff;
+      --muted:#b3b8c2;
+      --accent:#d4af37;
+      --accent2:#f4df95;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(212,175,55,0.15), transparent 30%),
+        radial-gradient(circle at right, rgba(255,255,255,0.05), transparent 20%),
+        var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px}
+    .card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:28px;
+      backdrop-filter: blur(10px);
+    }
+    .header{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      padding:18px 20px;
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{
+      position:relative;width:56px;height:56px;border-radius:20px;
+      background:rgba(255,255,255,0.04);border:1px solid var(--line);
+      overflow:hidden;
+    }
+    .logo:before{
+      content:"";position:absolute;inset:9px;border-radius:50%;
+      background:linear-gradient(135deg,#ddd 0%,#f4df95 40%,#d4af37 100%);
+    }
+    .logo:after{
+      content:"";position:absolute;left:24px;top:11px;width:23px;height:23px;border-radius:50%;
+      background:var(--bg);
+    }
+    .brand h1{font-size:28px;margin:0}
+    .sub{color:var(--muted);font-size:14px;margin-top:4px}
+    .nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+    .nav a{font-size:14px;color:var(--muted)}
+    .btn{
+      border:none;border-radius:18px;padding:13px 18px;cursor:pointer;
+      font-weight:600;font-size:14px;
+    }
+    .btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#111}
+    .btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--line)}
+    .hero{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:24px;
+    }
+    .hero-left,.hero-right{padding:30px}
+    .eyebrow{
+      display:inline-block;background:rgba(212,175,55,0.12);color:var(--accent2);
+      border:1px solid rgba(212,175,55,0.2);padding:8px 12px;border-radius:999px;font-size:13px;
+    }
+    h2{font-size:56px;line-height:1.04;margin:18px 0 0}
+    .lead{color:var(--muted);font-size:18px;line-height:1.7;max-width:760px}
+    .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+    .stat{padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)}
+    .stat .label{font-size:13px;color:var(--muted)}
+    .stat .value{font-size:28px;font-weight:700;margin-top:8px}
+    .panel-section{padding:18px;border-radius:22px;background:rgba(0,0,0,0.18);border:1px solid var(--line);margin-top:14px}
+    .tiny{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.18em}
+    .mono{word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+    .section{margin-top:24px;padding:24px}
+    .box{padding:22px}
+    .list-item{
+      display:flex;justify-content:space-between;gap:12px;padding:14px 16px;
+      border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,0.04);margin-top:10px
+    }
+    .roadmap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
+    .phase{padding:18px;border:1px solid var(--line);border-radius:22px;background:rgba(0,0,0,0.18)}
+    .phase .months{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.2em}
+    .phase h4{margin:10px 0 10px;font-size:22px}
+    .phase ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.7}
+    footer{margin:24px 0 8px}
+    .footer-inner{padding:22px;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
+    .link-row{display:flex;gap:10px;flex-wrap:wrap}
+    .notice{font-size:13px;color:var(--muted);margin-top:10px}
+    @media (max-width: 920px){
+      .hero,.grid3,.grid2,.roadmap-grid{grid-template-columns:1fr}
+      h2{font-size:38px}
+      .stats{grid-template-columns:1fr}
+      .header{align-items:flex-start;flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card header">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>LUNAQ</h1>
+          <div class="sub">Identity for the Web3 Era</div>
+        </div>
+      </div>
+      <div class="nav">
+        <a href="#about">About</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="https://t.me/lunaqofficial" target="_blank">Telegram</a>
+        <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy on PancakeSwap</button></a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="card hero-left">
+        <div class="eyebrow">BSC • Web3 Identity • Wallet Connect</div>
+        <h2>A sober Web3 identity layer for premium digital access.</h2>
+        <p class="lead">
+          LUNAQ is a fixed-supply BEP20 token built for digital identity, gated access, community membership, and future staking utilities on BNB Smart Chain.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
+          <button class="btn btn-ghost" id="addTokenBtn">Add LUNAQ to Wallet</button>
+          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-ghost">Buy</button></a>
+          <button class="btn btn-ghost" id="stakeBtn">Stake (Soon)</button>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="label">Total Supply</div>
+            <div class="value" id="supplyValue">7,777,777</div>
+          </div>
+          <div class="stat">
+            <div class="label">Chain</div>
+            <div class="value">BSC</div>
+          </div>
+          <div class="stat">
+            <div class="label">Your Balance</div>
+            <div class="value" id="balanceValue">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card hero-right" id="wallet">
+        <div class="panel-section">
+          <div class="tiny">Wallet panel</div>
+          <h3 style="margin:8px 0 0;font-size:28px">Live connection</h3>
+        </div>
+        <div class="panel-section">
+          <div class="tiny">Status</div>
+          <div id="statusText" style="margin-top:10px">Ready</div>
+        </div>
+        <div class="panel-section">
+          <div class="tiny">Connected wallet</div>
+          <div id="walletText" style="margin-top:10px" class="mono">No wallet connected</div>
+        </div>
+        <div class="panel-section">
+          <div class="tiny">Network</div>
+          <div id="networkText" style="margin-top:10px">Not connected</div>
+        </div>
+        <div class="panel-section">
+          <div class="tiny">Token address</div>
+          <div class="mono" id="tokenText" style="margin-top:10px">0x7ed17dde21a63df433839fb37f3cf1460576a2ac</div>
+          <div style="margin-top:12px">
+            <button class="btn btn-ghost" id="copyBtn">Copy address</button>
+            <button class="btn btn-ghost" id="switchBtn">Switch to BSC</button>
+          </div>
+        </div>
+        <div class="notice">Wallets supported: MetaMask, Bitget Wallet, and other injected EVM wallets.</div>
+      </div>
+    </div>
+
+    <div class="grid3" id="about">
+      <div class="card box">
+        <h3>Scarcity by design</h3>
+        <p class="lead" style="font-size:16px">Fixed supply at 7,777,777 LUNAQ with a premium long-term positioning model.</p>
+      </div>
+      <div class="card box">
+        <h3>Membership utility</h3>
+        <p class="lead" style="font-size:16px">Use LUNAQ for gated communities, premium access, digital identity, and ecosystem unlocks.</p>
+      </div>
+      <div class="card box">
+        <h3>Governance-ready</h3>
+        <p class="lead" style="font-size:16px">Prepared for future DAO voting, staking, and Moon Seed / Moon Core / Moon Crown holder tiers.</p>
+      </div>
+    </div>
+
+    <div class="card section" id="roadmap">
+      <div class="tiny">Roadmap</div>
+      <h3 style="font-size:34px;margin:10px 0 0">LUNAQ roadmap — 16 months</h3>
+      <p class="lead" style="font-size:16px">A phased rollout focused on traction first, then utility, then real-world identity and access use cases.</p>
+      <div class="roadmap-grid">
+        <div class="phase"><div class="months">Months 1–2</div><h4>Foundation</h4><ul><li>Deploy LUNAQ on BNB Smart Chain</li><li>Verify contract on BscScan</li><li>Launch branding, website, wallet connect</li><li>Open Telegram and X channels</li></ul></div>
+        <div class="phase"><div class="months">Months 3–4</div><h4>Liquidity & Visibility</h4><ul><li>Add PancakeSwap liquidity</li><li>Appear on DexScreener and DEXTools</li><li>Start community growth campaigns</li><li>Run first awareness pushes</li></ul></div>
+        <div class="phase"><div class="months">Months 5–6</div><h4>LUNAQ ID</h4><ul><li>Launch unique wallet-linked identity code</li><li>Enable wallet login and profile creation</li><li>Generate unique LUNAQ ID</li></ul></div>
+        <div class="phase"><div class="months">Months 7–8</div><h4>Membership System</h4><ul><li>Launch Moon Seed / Moon Core / Moon Crown tiers</li><li>Unlock gated communities and premium access</li><li>Connect holder status to utility features</li></ul></div>
+        <div class="phase"><div class="months">Months 9–10</div><h4>Platform Utility</h4><ul><li>Launch QR and code verification flow</li><li>Add user dashboard</li><li>Enable access verification for partners</li></ul></div>
+        <div class="phase"><div class="months">Months 11–12</div><h4>Staking & Rewards</h4><ul><li>Launch staking for holders</li><li>Introduce reward mechanics</li><li>Add loyalty incentives</li></ul></div>
+        <div class="phase"><div class="months">Months 13–14</div><h4>Ecosystem Expansion</h4><ul><li>Explore NFT integration</li><li>Enable marketplace or partner utility</li><li>Expand identity usage</li></ul></div>
+        <div class="phase"><div class="months">Months 15–16</div><h4>Global Utility</h4><ul><li>Prepare mobile-first flow</li><li>Expand real-world access integrations</li><li>Position LUNAQ as identity infrastructure</li></ul></div>
+      </div>
+    </div>
+
+    <div class="grid2" id="tokenomics">
+      <div class="card section">
+        <div class="tiny">Tokenomics</div>
+        <h3 style="font-size:34px;margin:10px 0 0">Clean launch structure</h3>
+        <div class="list-item"><span>Community</span><strong>35%</strong></div>
+        <div class="list-item"><span>Treasury</span><strong>20%</strong></div>
+        <div class="list-item"><span>Liquidity</span><strong>15%</strong></div>
+        <div class="list-item"><span>Development</span><strong>15%</strong></div>
+        <div class="list-item"><span>Team</span><strong>10%</strong></div>
+        <div class="list-item"><span>Partners</span><strong>5%</strong></div>
+      </div>
+
+      <div class="card section">
+        <div class="tiny">Official links</div>
+        <h3 style="font-size:34px;margin:10px 0 0">Project access</h3>
+        <div class="list-item"><a href="https://bscscan.com/token/0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank">BscScan verified contract</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank">Buy on PancakeSwap</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://t.me/lunaqofficial" target="_blank">Telegram announcements</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://t.me/lunaqcommunity" target="_blank">Telegram community</a><strong>Open</strong></div>
+        <div class="notice">Website domain can be upgraded later. You can publish this version first without buying a domain.</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="card footer-inner">
+        <div>
+          <div style="font-size:24px;font-weight:700">LUNAQ</div>
+          <div class="sub">Elegant utility. Clear token structure. Wallet-first onboarding.</div>
+        </div>
+        <div class="link-row">
+          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy</button></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const TOKEN_ADDRESS = "0x7ed17dde21a63df433839fb37f3cf1460576a2ac";
+    const CHAIN_ID_HEX = "0x38";
+    const CHAIN_NAME = "BNB Smart Chain";
+    const RPC_URL = "https://bsc-dataseed.binance.org";
+    const EXPLORER = "https://bscscan.com";
+    const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
+
+    const ERC20_ABI = [
+      "function balanceOf(address owner) view returns (uint256)",
+      "function decimals() view returns (uint8)",
+      "function symbol() view returns (string)",
+      "function totalSupply() view returns (uint256)"
+    ];
+
+    const statusText = document.getElementById("statusText");
+    const walletText = document.getElementById("walletText");
+    const networkText = document.getElementById("networkText");
+    const balanceValue = document.getElementById("balanceValue");
+    const supplyValue = document.getElementById("supplyValue");
+
+    function setStatus(v){ statusText.textContent = v; }
+    function shortAddress(address){ return address ? `${address.slice(0,6)}...${address.slice(-4)}` : ""; }
+
+    async function readTokenData(account, provider){
+      try{
+        const token = new ethers.Contract(TOKEN_ADDRESS, ERC20_ABI, provider);
+        const [decimals, totalSupplyRaw] = await Promise.all([
+          token.decimals(),
+          token.totalSupply()
+        ]);
+        const supply = Number(ethers.formatUnits(totalSupplyRaw, decimals));
+        supplyValue.textContent = supply.toLocaleString();
+        if(account){
+          const balanceRaw = await token.balanceOf(account);
+          const balance = Number(ethers.formatUnits(balanceRaw, decimals));
+          balanceValue.textContent = balance.toLocaleString(undefined,{maximumFractionDigits:4});
+        }
+      }catch(e){
+        setStatus("Token data unavailable right now.");
+      }
+    }
+
+    async function connectWallet(){
+      if(!window.ethereum){
+        setStatus("Install MetaMask, Bitget Wallet, or another EVM wallet first.");
+        return;
+      }
+      try{
+        setStatus("Connecting wallet...");
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        const network = await provider.getNetwork();
+        const account = accounts[0];
+        walletText.textContent = account;
+        networkText.textContent = network.name === "unknown" ? `Chain ${network.chainId}` : network.name;
+        document.getElementById("connectBtn").textContent = shortAddress(account);
+        setStatus("Wallet connected.");
+        await readTokenData(account, provider);
+      }catch(e){
+        setStatus("Wallet connection cancelled or failed.");
+      }
+    }
+
+    async function switchToBSC(){
+      if(!window.ethereum){
+        setStatus("Install a wallet first.");
+        return;
+      }
+      try{
+        await window.ethereum.request({
+          method:"wallet_switchEthereumChain",
+          params:[{chainId: CHAIN_ID_HEX}]
+        });
+        networkText.textContent = CHAIN_NAME;
+        setStatus("Connected to BNB Smart Chain.");
+      }catch(err){
+        if(err.code === 4902){
+          try{
+            await window.ethereum.request({
+              method:"wallet_addEthereumChain",
+              params:[{
+                chainId: CHAIN_ID_HEX,
+                chainName: CHAIN_NAME,
+                nativeCurrency: CURRENCY,
+                rpcUrls:[RPC_URL],
+                blockExplorerUrls:[EXPLORER]
+              }]
+            });
+            networkText.textContent = CHAIN_NAME;
+            setStatus("BNB Smart Chain added to wallet.");
+          }catch(e){
+            setStatus("Could not add BSC to wallet.");
+          }
+        }else{
+          setStatus("Network switch failed.");
+        }
+      }
+    }
+
+    async function addTokenToWallet(){
+      if(!window.ethereum){
+        setStatus("Install a wallet first.");
+        return;
+      }
+      try{
+        await window.ethereum.request({
+          method:"wallet_watchAsset",
+          params:{
+            type:"ERC20",
+            options:{
+              address:TOKEN_ADDRESS,
+              symbol:"LUNAQ",
+              decimals:18
+            }
+          }
+        });
+        setStatus("LUNAQ add-token prompt opened.");
+      }catch(e){
+        setStatus("Could not open add-token prompt.");
+      }
+    }
+
+    async function copyAddress(){
+      try{
+        await navigator.clipboard.writeText(TOKEN_ADDRESS);
+        setStatus("Token address copied.");
+      }catch(e){
+        setStatus("Could not copy token address.");
+      }
+    }
+
+    document.getElementById("connectBtn").addEventListener("click", connectWallet);
+    document.getElementById("switchBtn").addEventListener("click", switchToBSC);
+    document.getElementById("addTokenBtn").addEventListener("click", addTokenToWallet);
+    document.getElementById("copyBtn").addEventListener("click", copyAddress);
+    document.getElementById("stakeBtn").addEventListener("click", () => setStatus("Staking page will be activated in a future update."));
+
+    if(window.ethereum && window.ethereum.on){
+      window.ethereum.on("accountsChanged", () => location.reload());
+      window.ethereum.on("chainChanged", () => location.reload());
+    }
+  </script>
+</body>
+</html>
