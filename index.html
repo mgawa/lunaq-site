@@ -114,6 +114,19 @@
       background:rgba(212,175,55,0.06);color:#f7e6aa;font-weight:600;
     }
     .small-note{font-size:13px;color:var(--muted);margin-top:10px}
+
+    .countdown .top{font-size:14px;color:#f4df95}
+    .countdown .timer{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+    .count-card{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:18px;
+      padding:14px;
+      text-align:center;
+    }
+    .count-card .num{font-size:28px;font-weight:700;color:#fff}
+    .count-card .lab{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.18em}
+
     footer{margin:24px 0 8px}
     .footer-inner{padding:22px;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
     .link-row{display:flex;gap:10px;flex-wrap:wrap}
@@ -148,39 +161,45 @@
     <div class="hero">
       <div class="card hero-left">
         <div class="eyebrow">Launching Soon • BSC • Web3 Identity • Wallet Connect</div>
-        <h2>Premium identity infrastructure for the Web3 era.</h2>
+        <h2>25-day countdown to public liquidity.</h2>
         <p class="lead">
           LUNAQ is a fixed-supply BEP20 token designed for digital identity, premium membership access, future staking, and ecosystem utility on BNB Smart Chain.
-          Early supporters get the strongest positioning before public scale.
+          This is the accumulation window before public trading. Early supporters position first for LUNAQ ID, staking access, and membership tiers.
         </p>
 
         <div class="countdown">
-          Estimated liquidity activation window: within the next 45 days.
+          <div class="top">Liquidity countdown — early entry window closes in 25 days</div>
+          <div class="timer">
+            <div class="count-card"><div class="num" id="days">25</div><div class="lab">Days</div></div>
+            <div class="count-card"><div class="num" id="hours">00</div><div class="lab">Hours</div></div>
+            <div class="count-card"><div class="num" id="minutes">00</div><div class="lab">Minutes</div></div>
+            <div class="count-card"><div class="num" id="seconds">00</div><div class="lab">Seconds</div></div>
+          </div>
         </div>
 
         <div class="hero-buttons">
           <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
           <button class="btn btn-ghost" id="addTokenBtn">Add LUNAQ to Wallet</button>
           <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
-          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-ghost">Buy</button></a>
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-ghost">Buy After Launch</button></a>
           <button class="btn btn-ghost" id="stakeBtn">Stake (Soon)</button>
         </div>
 
         <div class="launch-band">
           <div class="launch-box">
             <div class="label">Status</div>
-            <div class="value">Launch Pending</div>
-            <div class="small-note">Liquidity and trading activate after rollout</div>
+            <div class="value">Pre-Launch Window</div>
+            <div class="small-note">Last phase before public liquidity goes live</div>
           </div>
           <div class="launch-box">
             <div class="label">Phase</div>
-            <div class="value">Early Supporters</div>
-            <div class="small-note">Community-first positioning before expansion</div>
+            <div class="value">Early Positioning</div>
+            <div class="small-note">This phase will not repeat after public launch</div>
           </div>
           <div class="launch-box">
             <div class="label">Supply</div>
             <div class="value">7,777,777</div>
-            <div class="small-note">Fixed supply with premium scarcity profile</div>
+            <div class="small-note">Low fixed supply before broader market exposure</div>
           </div>
         </div>
 
@@ -225,7 +244,7 @@
             <button class="btn btn-ghost" id="switchBtn">Switch to BSC</button>
           </div>
         </div>
-        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. Trading becomes active after liquidity launch.</div>
+        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. Public trading opens after liquidity launch, so this is the early access phase.</div>
       </div>
     </div>
 
@@ -244,9 +263,30 @@
       </div>
     </div>
 
+    
+    <div class="card section" id="fomo">
+      <div class="tiny">Early Advantage</div>
+      <h3 style="font-size:34px;margin:10px 0 0">Why people enter before liquidity</h3>
+      <div class="grid3">
+        <div class="box" style="padding:22px">
+          <h3 style="font-size:22px;margin:0 0 8px">Before public pricing</h3>
+          <p class="lead" style="font-size:16px">This phase exists before open market discovery begins. Once liquidity goes live, the project moves into public price action.</p>
+        </div>
+        <div class="box" style="padding:22px">
+          <h3 style="font-size:22px;margin:0 0 8px">Before ecosystem rollout</h3>
+          <p class="lead" style="font-size:16px">LUNAQ ID, staking access, and membership tiers are planned after the foundation phase. Early supporters position first.</p>
+        </div>
+        <div class="box" style="padding:22px">
+          <h3 style="font-size:22px;margin:0 0 8px">Limited supply stays fixed</h3>
+          <p class="lead" style="font-size:16px">There is no supply expansion model here. Scarcity stays part of the project profile from the beginning.</p>
+        </div>
+      </div>
+    </div>
+
+
     <div class="card section" id="why">
       <div class="tiny">Why LUNAQ</div>
-      <h3 style="font-size:34px;margin:10px 0 0">Built for utility, not just speculation</h3>
+      <h3 style="font-size:34px;margin:10px 0 0">Why early matters</h3>
       <div class="grid4">
         <div class="why-box">
           <h3 style="font-size:22px;margin:0">Web3 Identity</h3>
@@ -314,7 +354,7 @@
         </div>
         <div class="link-row">
           <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
-          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy</button></a>
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy After Launch</button></a>
         </div>
       </div>
     </footer>
@@ -327,6 +367,7 @@
     const RPC_URL = "https://bsc-dataseed.binance.org";
     const EXPLORER = "https://bscscan.com";
     const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
+    const LAUNCH_AT = Date.now() + (25 * 24 * 60 * 60 * 1000);
 
     const ERC20_ABI = [
       "function balanceOf(address owner) view returns (uint256)",
@@ -452,11 +493,32 @@
       }
     }
 
+    
+    function updateCountdown(){
+      const now = Date.now();
+      let diff = Math.max(0, LAUNCH_AT - now);
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days * (1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours * (1000*60*60);
+      const minutes = Math.floor(diff / (1000*60));
+      diff -= minutes * (1000*60);
+      const seconds = Math.floor(diff / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
     document.getElementById("connectBtn").addEventListener("click", connectWallet);
     document.getElementById("switchBtn").addEventListener("click", switchToBSC);
     document.getElementById("addTokenBtn").addEventListener("click", addTokenToWallet);
     document.getElementById("copyBtn").addEventListener("click", copyAddress);
     document.getElementById("stakeBtn").addEventListener("click", () => setStatus("Staking page will be activated in a future update."));
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     if(window.ethereum && window.ethereum.on){
       window.ethereum.on("accountsChanged", () => location.reload());
