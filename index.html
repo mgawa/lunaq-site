@@ -33,18 +33,14 @@
       border:1px solid var(--line);
       border-radius:30px;
       backdrop-filter: blur(12px);
-      box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+      box-shadow:0 14px 40px rgba(0,0,0,0.22);
     }
-    .header{
-      display:flex;justify-content:space-between;align-items:center;gap:16px;
-      padding:18px 20px;
-    }
+    .header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px}
     .brand{display:flex;align-items:center;gap:14px}
     .logo{
       position:relative;width:58px;height:58px;border-radius:22px;
-      background:rgba(255,255,255,0.04);border:1px solid var(--line);
-      overflow:hidden;
-      box-shadow: 0 0 40px rgba(212,175,55,0.08);
+      background:rgba(255,255,255,0.04);border:1px solid var(--line);overflow:hidden;
+      box-shadow:0 0 40px rgba(212,175,55,0.08);
     }
     .logo:before{
       content:"";position:absolute;inset:9px;border-radius:50%;
@@ -60,7 +56,7 @@
     .nav a{font-size:14px;color:var(--muted)}
     .btn{
       border:none;border-radius:18px;padding:13px 18px;cursor:pointer;
-      font-weight:600;font-size:14px;transition: all .22s ease;
+      font-weight:600;font-size:14px;transition:all .22s ease;
     }
     .btn:hover{transform:translateY(-1px)}
     .btn-primary{
@@ -78,12 +74,8 @@
     .lead{color:var(--muted);font-size:18px;line-height:1.7;max-width:760px}
     .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
     .launch-band{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
-    .launch-box,.stat{
-      padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)
-    }
-    .launch-box{
-      background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
-    }
+    .launch-box,.stat{padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)}
+    .launch-box{background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03))}
     .stat .label,.launch-box .label{font-size:13px;color:var(--muted)}
     .stat .value,.launch-box .value{font-size:26px;font-weight:700;margin-top:8px}
     .panel-section{padding:18px;border-radius:22px;background:rgba(0,0,0,0.18);border:1px solid var(--line);margin-top:14px}
@@ -110,29 +102,49 @@
     .phase h4{margin:10px 0 10px;font-size:22px}
     .phase ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.7}
     .countdown{
-      margin-top:16px;padding:16px 18px;border-radius:20px;border:1px solid rgba(212,175,55,0.18);
-      background:rgba(212,175,55,0.06);color:#f7e6aa;font-weight:600;
+      margin-top:16px;padding:18px;border-radius:24px;border:1px solid rgba(212,175,55,0.18);
+      background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
+      color:#f7e6aa;font-weight:600;position:relative;overflow:hidden;
+      box-shadow:0 0 30px rgba(212,175,55,0.08);
     }
-    .small-note{font-size:13px;color:var(--muted);margin-top:10px}
-
+    .countdown:before{
+      content:"";position:absolute;inset:-30% auto auto -20%;width:45%;height:160%;
+      transform:rotate(18deg);
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+      animation:sweep 5s linear infinite;pointer-events:none;
+    }
+    @keyframes sweep{
+      from{transform:translateX(-120%) rotate(18deg)}
+      to{transform:translateX(320%) rotate(18deg)}
+    }
     .countdown .top{font-size:14px;color:#f4df95}
     .countdown .timer{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
     .count-card{
       background:rgba(255,255,255,0.05);
       border:1px solid rgba(255,255,255,0.08);
-      border-radius:18px;
-      padding:14px;
-      text-align:center;
+      border-radius:22px;padding:14px;text-align:center;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
     }
-    .count-card .num{font-size:28px;font-weight:700;color:#fff}
+    .count-card.active{
+      transform:translateY(-2px) scale(1.02);
+      border-color:rgba(212,175,55,0.40);
+      box-shadow:0 0 0 1px rgba(212,175,55,0.16), 0 0 24px rgba(212,175,55,0.18);
+    }
+    .count-card .num{font-size:28px;font-weight:700;color:#fff;text-shadow:0 0 18px rgba(255,255,255,0.10)}
     .count-card .lab{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.18em}
-
+    .flip{animation:flipTick 0.35s ease}
+    @keyframes flipTick{
+      0%{transform:translateY(-4px);opacity:0.6}
+      100%{transform:translateY(0);opacity:1}
+    }
+    .small-note{font-size:13px;color:var(--muted);margin-top:10px}
     footer{margin:24px 0 8px}
     .footer-inner{padding:22px;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
     .link-row{display:flex;gap:10px;flex-wrap:wrap}
     .notice{font-size:13px;color:var(--muted);margin-top:10px}
     @media (max-width: 920px){
-      .hero,.grid4,.grid3,.grid2,.roadmap-grid,.launch-band{grid-template-columns:1fr}
+      .hero,.grid4,.grid3,.grid2,.roadmap-grid,.launch-band,.countdown .timer{grid-template-columns:1fr}
       h2{font-size:38px}
       .header{align-items:flex-start;flex-direction:column}
     }
@@ -161,19 +173,19 @@
     <div class="hero">
       <div class="card hero-left">
         <div class="eyebrow">Launching Soon • BSC • Web3 Identity • Wallet Connect</div>
-        <h2>25-day countdown to public liquidity.</h2>
+        <h2>20-day countdown to public liquidity.</h2>
         <p class="lead">
           LUNAQ is a fixed-supply BEP20 token designed for digital identity, premium membership access, future staking, and ecosystem utility on BNB Smart Chain.
           This is the accumulation window before public trading. Early supporters position first for LUNAQ ID, staking access, and membership tiers.
         </p>
 
-        <div class="countdown">
-          <div class="top">Liquidity countdown — early entry window closes in 25 days</div>
+        <div class="countdown" id="countdown">
+          <div class="top">Liquidity countdown — public liquidity goes live in:</div>
           <div class="timer">
-            <div class="count-card"><div class="num" id="days">25</div><div class="lab">Days</div></div>
-            <div class="count-card"><div class="num" id="hours">00</div><div class="lab">Hours</div></div>
-            <div class="count-card"><div class="num" id="minutes">00</div><div class="lab">Minutes</div></div>
-            <div class="count-card"><div class="num" id="seconds">00</div><div class="lab">Seconds</div></div>
+            <div class="count-card" id="daysCard"><div class="num" id="days">20</div><div class="lab">Days</div></div>
+            <div class="count-card" id="hoursCard"><div class="num" id="hours">00</div><div class="lab">Hours</div></div>
+            <div class="count-card" id="minutesCard"><div class="num" id="minutes">00</div><div class="lab">Minutes</div></div>
+            <div class="count-card" id="secondsCard"><div class="num" id="seconds">00</div><div class="lab">Seconds</div></div>
           </div>
         </div>
 
@@ -189,7 +201,7 @@
           <div class="launch-box">
             <div class="label">Status</div>
             <div class="value">Pre-Launch Window</div>
-            <div class="small-note">Last phase before public liquidity goes live</div>
+            <div class="small-note">Liquidity and trading activate after rollout</div>
           </div>
           <div class="launch-box">
             <div class="label">Phase</div>
@@ -244,7 +256,7 @@
             <button class="btn btn-ghost" id="switchBtn">Switch to BSC</button>
           </div>
         </div>
-        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. Public trading opens after liquidity launch, so this is the early access phase.</div>
+        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. Public trading opens after liquidity launch.</div>
       </div>
     </div>
 
@@ -259,34 +271,13 @@
       </div>
       <div class="card box">
         <h3>Governance-ready</h3>
-        <p class="lead" style="font-size:16px">Prepared for future DAO voting, staking, and Moon Seed / Moon Core / Moon Crown holder tiers.</p>
+        <p class="lead" style="font-size:16px">Prepared for future DAO voting, staking, and holder-tier utility.</p>
       </div>
     </div>
-
-    
-    <div class="card section" id="fomo">
-      <div class="tiny">Early Advantage</div>
-      <h3 style="font-size:34px;margin:10px 0 0">Why people enter before liquidity</h3>
-      <div class="grid3">
-        <div class="box" style="padding:22px">
-          <h3 style="font-size:22px;margin:0 0 8px">Before public pricing</h3>
-          <p class="lead" style="font-size:16px">This phase exists before open market discovery begins. Once liquidity goes live, the project moves into public price action.</p>
-        </div>
-        <div class="box" style="padding:22px">
-          <h3 style="font-size:22px;margin:0 0 8px">Before ecosystem rollout</h3>
-          <p class="lead" style="font-size:16px">LUNAQ ID, staking access, and membership tiers are planned after the foundation phase. Early supporters position first.</p>
-        </div>
-        <div class="box" style="padding:22px">
-          <h3 style="font-size:22px;margin:0 0 8px">Limited supply stays fixed</h3>
-          <p class="lead" style="font-size:16px">There is no supply expansion model here. Scarcity stays part of the project profile from the beginning.</p>
-        </div>
-      </div>
-    </div>
-
 
     <div class="card section" id="why">
-      <div class="tiny">Why LUNAQ</div>
-      <h3 style="font-size:34px;margin:10px 0 0">Why early matters</h3>
+      <div class="tiny">Why early matters</div>
+      <h3 style="font-size:34px;margin:10px 0 0">Built for utility, not just speculation</h3>
       <div class="grid4">
         <div class="why-box">
           <h3 style="font-size:22px;margin:0">Web3 Identity</h3>
@@ -315,7 +306,7 @@
         <div class="phase"><div class="months">Months 1–2</div><h4>Foundation</h4><ul><li>Deploy LUNAQ on BNB Smart Chain</li><li>Verify contract on BscScan</li><li>Launch branding, website, and wallet connect</li><li>Open Telegram and X channels</li></ul></div>
         <div class="phase"><div class="months">Months 3–4</div><h4>Liquidity & Visibility</h4><ul><li>Add PancakeSwap liquidity</li><li>Appear on DexScreener and DEXTools</li><li>Start community growth campaigns</li><li>Run early awareness pushes</li></ul></div>
         <div class="phase"><div class="months">Months 5–6</div><h4>LUNAQ ID</h4><ul><li>Launch unique wallet-linked identity code</li><li>Enable wallet login and profile creation</li><li>Generate unique LUNAQ ID</li></ul></div>
-        <div class="phase"><div class="months">Months 7–8</div><h4>Membership System</h4><ul><li>Launch Moon Seed / Moon Core / Moon Crown tiers</li><li>Unlock gated communities and premium access</li><li>Connect holder status to utility features</li></ul></div>
+        <div class="phase"><div class="months">Months 7–8</div><h4>Membership System</h4><ul><li>Launch holder levels based on token amount</li><li>Unlock gated communities and premium access</li><li>Connect holder status to utility features</li></ul></div>
         <div class="phase"><div class="months">Months 9–10</div><h4>Platform Utility</h4><ul><li>Launch QR and code verification flow</li><li>Add user dashboard</li><li>Enable access verification for partners</li></ul></div>
         <div class="phase"><div class="months">Months 11–12</div><h4>Staking & Rewards</h4><ul><li>Launch staking for holders</li><li>Introduce reward mechanics</li><li>Add loyalty incentives</li></ul></div>
         <div class="phase"><div class="months">Months 13–14</div><h4>Ecosystem Expansion</h4><ul><li>Explore NFT integration</li><li>Enable marketplace or partner utility</li><li>Expand on-chain identity usage</li></ul></div>
@@ -354,7 +345,7 @@
         </div>
         <div class="link-row">
           <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
-          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy After Launch</button></a>
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy</button></a>
         </div>
       </div>
     </footer>
@@ -367,7 +358,7 @@
     const RPC_URL = "https://bsc-dataseed.binance.org";
     const EXPLORER = "https://bscscan.com";
     const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
-    const LAUNCH_AT = Date.now() + (25 * 24 * 60 * 60 * 1000);
+    const LAUNCH_AT = new Date("2026-04-12T00:00:00").getTime();
 
     const ERC20_ABI = [
       "function balanceOf(address owner) view returns (uint256)",
@@ -493,10 +484,38 @@
       }
     }
 
-    
+    let lastValues = { days:null, hours:null, minutes:null, seconds:null };
+
+    function animateValue(el, cardEl, value, key){
+      if(lastValues[key] !== value){
+        el.textContent = String(value).padStart(2, "0");
+        el.classList.remove("flip");
+        void el.offsetWidth;
+        el.classList.add("flip");
+        cardEl.classList.remove("active");
+        void cardEl.offsetWidth;
+        cardEl.classList.add("active");
+        lastValues[key] = value;
+      }
+    }
+
     function updateCountdown(){
       const now = Date.now();
-      let diff = Math.max(0, LAUNCH_AT - now);
+      let diff = LAUNCH_AT - now;
+
+      if (diff <= 0){
+        document.getElementById("countdown").innerHTML = `
+          <div class="top">Liquidity countdown</div>
+          <div class="timer">
+            <div class="count-card active" style="grid-column:1/-1;">
+              <div class="num">LIVE</div>
+              <div class="lab">Liquidity Active</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       const days = Math.floor(diff / (1000*60*60*24));
       diff -= days * (1000*60*60*24);
       const hours = Math.floor(diff / (1000*60*60));
@@ -505,10 +524,10 @@
       diff -= minutes * (1000*60);
       const seconds = Math.floor(diff / 1000);
 
-      document.getElementById("days").textContent = String(days).padStart(2, "0");
-      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+      animateValue(document.getElementById("days"), document.getElementById("daysCard"), days, "days");
+      animateValue(document.getElementById("hours"), document.getElementById("hoursCard"), hours, "hours");
+      animateValue(document.getElementById("minutes"), document.getElementById("minutesCard"), minutes, "minutes");
+      animateValue(document.getElementById("seconds"), document.getElementById("secondsCard"), seconds, "seconds");
     }
 
     document.getElementById("connectBtn").addEventListener("click", connectWallet);
