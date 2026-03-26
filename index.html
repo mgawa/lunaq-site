@@ -35,12 +35,16 @@
       backdrop-filter: blur(12px);
       box-shadow:0 14px 40px rgba(0,0,0,0.22);
     }
-    .header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px}
+    .header{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      padding:18px 20px;
+    }
     .brand{display:flex;align-items:center;gap:14px}
     .logo{
       position:relative;width:58px;height:58px;border-radius:22px;
-      background:rgba(255,255,255,0.04);border:1px solid var(--line);overflow:hidden;
-      box-shadow:0 0 40px rgba(212,175,55,0.08);
+      background:rgba(255,255,255,0.04);border:1px solid var(--line);
+      overflow:hidden;
+      box-shadow: 0 0 40px rgba(212,175,55,0.08);
     }
     .logo:before{
       content:"";position:absolute;inset:9px;border-radius:50%;
@@ -74,8 +78,12 @@
     .lead{color:var(--muted);font-size:18px;line-height:1.7;max-width:760px}
     .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
     .launch-band{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
-    .launch-box,.stat{padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)}
-    .launch-box{background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03))}
+    .launch-box,.stat{
+      padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)
+    }
+    .launch-box{
+      background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
+    }
     .stat .label,.launch-box .label{font-size:13px;color:var(--muted)}
     .stat .value,.launch-box .value{font-size:26px;font-weight:700;margin-top:8px}
     .panel-section{padding:18px;border-radius:22px;background:rgba(0,0,0,0.18);border:1px solid var(--line);margin-top:14px}
@@ -118,6 +126,7 @@
       to{transform:translateX(320%) rotate(18deg)}
     }
     .countdown .top{font-size:14px;color:#f4df95}
+    .countdown .subtop{font-size:13px;color:var(--muted);margin-top:6px}
     .countdown .timer{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
     .count-card{
       background:rgba(255,255,255,0.05);
@@ -166,6 +175,7 @@
         <a href="#roadmap">Roadmap</a>
         <a href="#tokenomics">Tokenomics</a>
         <a href="https://t.me/lunaqofficial" target="_blank">Telegram</a>
+        <a href="https://x.com/lunaq_office" target="_blank">X</a>
         <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy on PancakeSwap</button></a>
       </div>
     </div>
@@ -173,16 +183,17 @@
     <div class="hero">
       <div class="card hero-left">
         <div class="eyebrow">Launching Soon • BSC • Web3 Identity • Wallet Connect</div>
-        <h2>20-day countdown to public liquidity.</h2>
+        <h2>Weekend early phase launch.</h2>
         <p class="lead">
           LUNAQ is a fixed-supply BEP20 token designed for digital identity, premium membership access, future staking, and ecosystem utility on BNB Smart Chain.
-          This is the accumulation window before public trading. Early supporters position first for LUNAQ ID, staking access, and membership tiers.
+          This is the final accumulation window before public trading. Early supporters position first for LUNAQ ID, staking access, and membership tiers.
         </p>
 
-        <div class="countdown" id="countdown">
-          <div class="top">Liquidity countdown — public liquidity goes live in:</div>
-          <div class="timer">
-            <div class="count-card" id="daysCard"><div class="num" id="days">20</div><div class="lab">Days</div></div>
+        <div class="countdown" id="countdownWrap">
+          <div class="top">Early phase countdown — limited liquidity goes live this weekend:</div>
+          <div class="subtop">Main liquidity on 12</div>
+          <div class="timer" id="countdown">
+            <div class="count-card" id="daysCard"><div class="num" id="days">00</div><div class="lab">Days</div></div>
             <div class="count-card" id="hoursCard"><div class="num" id="hours">00</div><div class="lab">Hours</div></div>
             <div class="count-card" id="minutesCard"><div class="num" id="minutes">00</div><div class="lab">Minutes</div></div>
             <div class="count-card" id="secondsCard"><div class="num" id="seconds">00</div><div class="lab">Seconds</div></div>
@@ -193,6 +204,7 @@
           <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
           <button class="btn btn-ghost" id="addTokenBtn">Add LUNAQ to Wallet</button>
           <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
+          <a href="https://x.com/lunaq_office" target="_blank"><button class="btn btn-ghost">X</button></a>
           <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-ghost">Buy After Launch</button></a>
           <button class="btn btn-ghost" id="stakeBtn">Stake (Soon)</button>
         </div>
@@ -200,13 +212,13 @@
         <div class="launch-band">
           <div class="launch-box">
             <div class="label">Status</div>
-            <div class="value">Pre-Launch Window</div>
-            <div class="small-note">Liquidity and trading activate after rollout</div>
+            <div class="value">Early Phase Window</div>
+            <div class="small-note">Limited liquidity first, then main rollout</div>
           </div>
           <div class="launch-box">
-            <div class="label">Phase</div>
-            <div class="value">Early Positioning</div>
-            <div class="small-note">This phase will not repeat after public launch</div>
+            <div class="label">Main Liquidity</div>
+            <div class="value">12</div>
+            <div class="small-note">Primary liquidity phase remains scheduled</div>
           </div>
           <div class="launch-box">
             <div class="label">Supply</div>
@@ -333,6 +345,7 @@
         <div class="list-item"><a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank">Buy on PancakeSwap</a><strong>Open</strong></div>
         <div class="list-item"><a href="https://t.me/lunaqofficial" target="_blank">Telegram announcements</a><strong>Open</strong></div>
         <div class="list-item"><a href="https://t.me/lunaqcommunity" target="_blank">Telegram community</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://x.com/lunaq_office" target="_blank">Official X account</a><strong>Open</strong></div>
         <div class="notice">Live on Vercel now. You can move to a custom domain later without rebuilding the site.</div>
       </div>
     </div>
@@ -345,6 +358,7 @@
         </div>
         <div class="link-row">
           <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
+          <a href="https://x.com/lunaq_office" target="_blank"><button class="btn btn-ghost">X</button></a>
           <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-primary">Buy</button></a>
         </div>
       </div>
@@ -358,7 +372,8 @@
     const RPC_URL = "https://bsc-dataseed.binance.org";
     const EXPLORER = "https://bscscan.com";
     const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
-    const LAUNCH_AT = new Date("2026-04-12T00:00:00").getTime();
+    // Weekend early phase target
+    const LAUNCH_AT = new Date("2026-03-29T18:00:00").getTime();
 
     const ERC20_ABI = [
       "function balanceOf(address owner) view returns (uint256)",
@@ -504,12 +519,13 @@
       let diff = LAUNCH_AT - now;
 
       if (diff <= 0){
-        document.getElementById("countdown").innerHTML = `
-          <div class="top">Liquidity countdown</div>
+        document.getElementById("countdownWrap").innerHTML = `
+          <div class="top">Early phase countdown</div>
+          <div class="subtop">Main liquidity on 12</div>
           <div class="timer">
             <div class="count-card active" style="grid-column:1/-1;">
               <div class="num">LIVE</div>
-              <div class="lab">Liquidity Active</div>
+              <div class="lab">Early Phase Active</div>
             </div>
           </div>
         `;
