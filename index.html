@@ -68,6 +68,11 @@
       color:#111;box-shadow:0 8px 24px rgba(212,175,55,0.18);
     }
     .btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--line)}
+    .btn-small{
+      padding:10px 14px;
+      font-size:13px;
+      border-radius:14px;
+    }
     .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:24px}
     .hero-left,.hero-right{padding:34px}
     .eyebrow{
@@ -102,7 +107,7 @@
     .why-box p{margin:10px 0 0;color:var(--muted);line-height:1.7}
     .list-item{
       display:flex;justify-content:space-between;gap:12px;padding:14px 16px;
-      border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,0.04);margin-top:10px
+      border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,0.04);margin-top:10px;align-items:center;
     }
     .roadmap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
     .phase{padding:18px;border:1px solid var(--line);border-radius:22px;background:rgba(0,0,0,0.18)}
@@ -148,12 +153,27 @@
       100%{transform:translateY(0);opacity:1}
     }
     .small-note{font-size:13px;color:var(--muted);margin-top:10px}
+    .nft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+    .nft-card{
+      padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)
+    }
+    .nft-title{font-size:18px;font-weight:700}
+    .badge{
+      display:inline-block;margin-top:10px;padding:6px 10px;border-radius:999px;
+      border:1px solid var(--line);font-size:12px;color:var(--muted)
+    }
+    .jackpot-box{
+      padding:22px;border-radius:24px;
+      border:1px solid rgba(212,175,55,0.2);
+      background:linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.03));
+      box-shadow:0 0 28px rgba(212,175,55,0.08);
+    }
     footer{margin:24px 0 8px}
     .footer-inner{padding:22px;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
     .link-row{display:flex;gap:10px;flex-wrap:wrap}
     .notice{font-size:13px;color:var(--muted);margin-top:10px}
     @media (max-width: 920px){
-      .hero,.grid4,.grid3,.grid2,.roadmap-grid,.launch-band,.countdown .timer{grid-template-columns:1fr}
+      .hero,.grid4,.grid3,.grid2,.roadmap-grid,.launch-band,.countdown .timer,.nft-grid{grid-template-columns:1fr}
       h2{font-size:38px}
       .header{align-items:flex-start;flex-direction:column}
     }
@@ -172,6 +192,7 @@
       <div class="nav">
         <a href="#about">About</a>
         <a href="#why">Why LUNAQ</a>
+        <a href="#claim-area">Open NFT</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#tokenomics">Tokenomics</a>
         <a href="https://t.me/lunaqofficial" target="_blank">Telegram</a>
@@ -260,6 +281,15 @@
           <div class="tiny">Network</div>
           <div id="networkText" style="margin-top:10px">Not connected</div>
         </div>
+        <div class="panel-section jackpot-box">
+          <div class="tiny">Jackpot live</div>
+          <div id="jackpotText" style="margin-top:10px;font-size:30px;font-weight:700">0 BNB</div>
+          <div class="small-note">Current jackpot pool on the NFT contract.</div>
+        </div>
+        <div class="panel-section">
+          <div class="tiny">Jackpot tickets</div>
+          <div id="ticketsText" style="margin-top:10px">0</div>
+        </div>
         <div class="panel-section">
           <div class="tiny">Token address</div>
           <div class="mono" id="tokenText" style="margin-top:10px">0x7ed17dde21a63df433839fb37f3cf1460576a2ac</div>
@@ -268,8 +298,23 @@
             <button class="btn btn-ghost" id="switchBtn">Switch to BSC</button>
           </div>
         </div>
-        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. Public trading opens after liquidity launch.</div>
+        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. NFT owners can open/claim on this page once per NFT.</div>
       </div>
+    </div>
+
+    <div class="card section" id="claim-area">
+      <div class="tiny">NFT Claim</div>
+      <h3 style="font-size:34px;margin:10px 0 0">Open your NFT and enter the jackpot</h3>
+      <p class="lead" style="font-size:16px">
+        If you own a LUNAQ Jackpot NFT, you can open it once on this page. Each opened NFT receives a reward of 500 or 800 LUNAQ and gets one ticket in the jackpot.
+      </p>
+
+      <div class="panel-section">
+        <div class="tiny">Your NFT status</div>
+        <div id="nftStatus" style="margin-top:10px">Connect wallet to load your NFTs.</div>
+      </div>
+
+      <div id="nftList" class="nft-grid"></div>
     </div>
 
     <div class="grid3" id="about">
@@ -367,12 +412,12 @@
 
   <script>
     const TOKEN_ADDRESS = "0x7ed17dde21a63df433839fb37f3cf1460576a2ac";
+    const NFT_CONTRACT = "0x9B11FbAaB535134c64D764E938Be4f652E4c0E6E";
     const CHAIN_ID_HEX = "0x38";
     const CHAIN_NAME = "BNB Smart Chain";
     const RPC_URL = "https://bsc-dataseed.binance.org";
     const EXPLORER = "https://bscscan.com";
     const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
-    // Weekend early phase target
     const LAUNCH_AT = new Date("2026-03-29T18:00:00").getTime();
 
     const ERC20_ABI = [
@@ -382,11 +427,25 @@
       "function totalSupply() view returns (uint256)"
     ];
 
+    const NFT_ABI = [
+      "function ownerOf(uint256 tokenId) view returns (address)",
+      "function claim(uint256 tokenId)",
+      "function claimed(uint256 tokenId) view returns (bool)",
+      "function ticketsCount() view returns (uint256)",
+      "function jackpotBalance() view returns (uint256)",
+      "function totalMinted() view returns (uint256)",
+      "function tokenURI(uint256 tokenId) view returns (string)"
+    ];
+
     const statusText = document.getElementById("statusText");
     const walletText = document.getElementById("walletText");
     const networkText = document.getElementById("networkText");
     const balanceValue = document.getElementById("balanceValue");
     const supplyValue = document.getElementById("supplyValue");
+    const nftStatus = document.getElementById("nftStatus");
+    const nftList = document.getElementById("nftList");
+    const jackpotText = document.getElementById("jackpotText");
+    const ticketsText = document.getElementById("ticketsText");
 
     function setStatus(v){ statusText.textContent = v; }
     function shortAddress(address){ return address ? `${address.slice(0,6)}...${address.slice(-4)}` : ""; }
@@ -400,6 +459,7 @@
         ]);
         const supply = Number(ethers.formatUnits(totalSupplyRaw, decimals));
         supplyValue.textContent = supply.toLocaleString();
+
         if(account){
           const balanceRaw = await token.balanceOf(account);
           const balance = Number(ethers.formatUnits(balanceRaw, decimals));
@@ -407,6 +467,73 @@
         }
       }catch(e){
         setStatus("Token data unavailable right now.");
+      }
+    }
+
+    async function loadJackpot(provider){
+      try{
+        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
+        const [jackpotRaw, tickets] = await Promise.all([
+          nft.jackpotBalance(),
+          nft.ticketsCount()
+        ]);
+
+        jackpotText.textContent = `${Number(ethers.formatEther(jackpotRaw)).toFixed(4)} BNB`;
+        ticketsText.textContent = tickets.toString();
+      }catch(e){
+        jackpotText.textContent = "Unavailable";
+        ticketsText.textContent = "Unavailable";
+      }
+    }
+
+    async function loadNFTData(account, provider){
+      try{
+        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
+        const minted = await nft.totalMinted();
+        const totalMinted = Number(minted);
+
+        const owned = [];
+
+        for(let tokenId = 1; tokenId <= totalMinted; tokenId++){
+          try{
+            const owner = await nft.ownerOf(tokenId);
+            if(owner.toLowerCase() === account.toLowerCase()){
+              const alreadyClaimed = await nft.claimed(tokenId);
+              let tokenUri = "";
+              try{
+                tokenUri = await nft.tokenURI(tokenId);
+              }catch(_){}
+              owned.push({ tokenId, alreadyClaimed, tokenUri });
+            }
+          }catch(_){}
+        }
+
+        if(owned.length === 0){
+          nftStatus.textContent = "No LUNAQ Jackpot NFTs found in this wallet.";
+          nftList.innerHTML = "";
+          return;
+        }
+
+        nftStatus.textContent = `Found ${owned.length} NFT(s) in this wallet.`;
+
+        nftList.innerHTML = owned.map(nft => `
+          <div class="nft-card">
+            <div class="nft-title">LUNAQ NFT #${nft.tokenId}</div>
+            <div class="badge">${nft.alreadyClaimed ? "Already Opened" : "Ready To Open"}</div>
+            <div class="small-note" style="margin-top:12px;">Reward: 500 or 800 LUNAQ + 1 jackpot ticket</div>
+            ${nft.tokenUri ? `<div class="small-note mono" style="margin-top:10px;">${nft.tokenUri}</div>` : ""}
+            <div style="margin-top:16px;">
+              ${
+                nft.alreadyClaimed
+                  ? `<button class="btn btn-ghost btn-small" disabled>Already Opened</button>`
+                  : `<button class="btn btn-primary btn-small" onclick="claimNFT(${nft.tokenId})">Open NFT</button>`
+              }
+            </div>
+          </div>
+        `).join("");
+      }catch(e){
+        nftStatus.textContent = "Could not load your NFTs right now.";
+        nftList.innerHTML = "";
       }
     }
 
@@ -421,13 +548,43 @@
         const accounts = await provider.send("eth_requestAccounts", []);
         const network = await provider.getNetwork();
         const account = accounts[0];
+
         walletText.textContent = account;
         networkText.textContent = network.name === "unknown" ? `Chain ${network.chainId}` : network.name;
         document.getElementById("connectBtn").textContent = shortAddress(account);
         setStatus("Wallet connected.");
+
         await readTokenData(account, provider);
+        await loadJackpot(provider);
+        await loadNFTData(account, provider);
       }catch(e){
         setStatus("Wallet connection cancelled or failed.");
+      }
+    }
+
+    async function claimNFT(tokenId){
+      try{
+        if(!window.ethereum){
+          setStatus("Install a wallet first.");
+          return;
+        }
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, signer);
+
+        setStatus(`Opening NFT #${tokenId}...`);
+        const tx = await nft.claim(tokenId);
+        await tx.wait();
+
+        setStatus(`NFT #${tokenId} opened successfully.`);
+        const account = await signer.getAddress();
+
+        await readTokenData(account, provider);
+        await loadJackpot(provider);
+        await loadNFTData(account, provider);
+      }catch(e){
+        setStatus("Open NFT failed or was cancelled.");
       }
     }
 
