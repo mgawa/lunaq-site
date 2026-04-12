@@ -47,7 +47,7 @@
       position:relative;width:58px;height:58px;border-radius:22px;
       background:rgba(255,255,255,0.04);border:1px solid var(--line);
       overflow:hidden;
-      box-shadow:0 0 40px rgba(212,175,55,0.08);
+      box-shadow: 0 0 40px rgba(212,175,55,0.08);
     }
     .logo:before{
       content:"";position:absolute;inset:9px;border-radius:50%;
@@ -113,11 +113,26 @@
       display:flex;justify-content:space-between;gap:12px;padding:14px 16px;
       border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,0.04);margin-top:10px;align-items:center;
     }
+    .roadmap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
+    .phase{padding:18px;border:1px solid var(--line);border-radius:22px;background:rgba(0,0,0,0.18)}
+    .phase .months{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.2em}
+    .phase h4{margin:10px 0 10px;font-size:22px}
+    .phase ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.7}
     .countdown{
       margin-top:16px;padding:18px;border-radius:24px;border:1px solid rgba(212,175,55,0.18);
       background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
-      color:#f7e6aa;font-weight:600;
+      color:#f7e6aa;font-weight:600;position:relative;overflow:hidden;
       box-shadow:0 0 30px rgba(212,175,55,0.08);
+    }
+    .countdown:before{
+      content:"";position:absolute;inset:-30% auto auto -20%;width:45%;height:160%;
+      transform:rotate(18deg);
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+      animation:sweep 5s linear infinite;pointer-events:none;
+    }
+    @keyframes sweep{
+      from{transform:translateX(-120%) rotate(18deg)}
+      to{transform:translateX(320%) rotate(18deg)}
     }
     .countdown .top{font-size:14px;color:#f4df95}
     .countdown .subtop{font-size:13px;color:var(--muted);margin-top:6px}
@@ -126,10 +141,21 @@
       background:rgba(255,255,255,0.05);
       border:1px solid rgba(255,255,255,0.08);
       border-radius:22px;padding:14px;text-align:center;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
     }
-    .count-card .num{font-size:28px;font-weight:700;color:#fff}
+    .count-card.active{
+      transform:translateY(-2px) scale(1.02);
+      border-color:rgba(212,175,55,0.40);
+      box-shadow:0 0 0 1px rgba(212,175,55,0.16), 0 0 24px rgba(212,175,55,0.18);
+    }
+    .count-card .num{font-size:28px;font-weight:700;color:#fff;text-shadow:0 0 18px rgba(255,255,255,0.10)}
     .count-card .lab{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.18em}
+    .flip{animation:flipTick 0.35s ease}
+    @keyframes flipTick{
+      0%{transform:translateY(-4px);opacity:0.6}
+      100%{transform:translateY(0);opacity:1}
+    }
     .small-note{font-size:13px;color:var(--muted);margin-top:10px}
     .nft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
     .nft-card{
@@ -146,15 +172,24 @@
       background:linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.03));
       box-shadow:0 0 28px rgba(212,175,55,0.08);
     }
-    .ok{color:var(--ok)}
-    .warn{color:var(--warn)}
-    .danger{color:var(--danger)}
+    .manual-row{
+      display:flex;gap:10px;flex-wrap:wrap;margin-top:12px
+    }
+    .manual-input{
+      flex:1;min-width:180px;
+      background:rgba(255,255,255,0.06);
+      color:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 14px;
+      outline:none;
+    }
     footer{margin:24px 0 8px}
     .footer-inner{padding:22px;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
     .link-row{display:flex;gap:10px;flex-wrap:wrap}
     .notice{font-size:13px;color:var(--muted);margin-top:10px}
     @media (max-width: 920px){
-      .hero,.grid4,.grid3,.grid2,.countdown .timer,.nft-grid{grid-template-columns:1fr}
+      .hero,.grid4,.grid3,.grid2,.roadmap-grid,.launch-band,.countdown .timer,.nft-grid{grid-template-columns:1fr}
       h2{font-size:38px}
       .header{align-items:flex-start;flex-direction:column}
     }
@@ -171,101 +206,115 @@
         </div>
       </div>
       <div class="nav">
+        <a href="#about">About</a>
+        <a href="#why">Why LUNAQ</a>
         <a href="#claim-area">Open NFT</a>
-        <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank">Element</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#tokenomics">Tokenomics</a>
         <a href="https://t.me/lunaqofficial" target="_blank">Telegram</a>
         <a href="https://x.com/lunaq_office" target="_blank">X</a>
+        <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank"><button class="btn btn-primary">View on Element</button></a>
       </div>
     </div>
 
     <div class="hero">
       <div class="card hero-left">
-        <div class="eyebrow">BSC • NFT Utility • Jackpot • Wallet Connect</div>
-        <h2>Open your NFT and unlock your reward.</h2>
+        <div class="eyebrow">Launching Soon • BSC • Web3 Identity • Wallet Connect</div>
+        <h2>Weekend early phase launch.</h2>
         <p class="lead">
-          LUNAQ Jackpot NFT holders can open each NFT once on this page, receive a reward of 500 or 800 LUNAQ,
-          and automatically get one ticket in the 1 BNB jackpot system.
+          LUNAQ is a fixed-supply BEP20 token designed for digital identity, premium membership access, future staking, and ecosystem utility on BNB Smart Chain.
+          This is the final accumulation window before public trading. Early supporters position first for LUNAQ ID, staking access, and membership tiers.
         </p>
 
-        <div class="countdown">
-          <div class="top">LUNAQ Jackpot NFT</div>
-          <div class="subtop">Limited collection • 350 NFTs • Utility claim on site</div>
-          <div class="timer">
-            <div class="count-card"><div class="num" id="jackpotHero">0.0000</div><div class="lab">BNB Jackpot</div></div>
-            <div class="count-card"><div class="num" id="ticketsHero">0</div><div class="lab">Tickets</div></div>
-            <div class="count-card"><div class="num">500/800</div><div class="lab">LUNAQ Reward</div></div>
-            <div class="count-card"><div class="num">350</div><div class="lab">NFT Supply</div></div>
+        <div class="countdown" id="countdownWrap">
+          <div class="top">Early phase countdown — limited liquidity goes live this weekend:</div>
+          <div class="subtop">Main liquidity on 12</div>
+          <div class="timer" id="countdown">
+            <div class="count-card" id="daysCard"><div class="num" id="days">00</div><div class="lab">Days</div></div>
+            <div class="count-card" id="hoursCard"><div class="num" id="hours">00</div><div class="lab">Hours</div></div>
+            <div class="count-card" id="minutesCard"><div class="num" id="minutes">00</div><div class="lab">Minutes</div></div>
+            <div class="count-card" id="secondsCard"><div class="num" id="seconds">00</div><div class="lab">Seconds</div></div>
           </div>
         </div>
 
         <div class="hero-buttons">
           <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
+          <button class="btn btn-ghost" id="addTokenBtn">Add LUNAQ to Wallet</button>
+          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
+          <a href="https://x.com/lunaq_office" target="_blank"><button class="btn btn-ghost">X</button></a>
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-ghost">Buy After Launch</button></a>
           <button class="btn btn-ghost" id="switchBtn">Switch to BSC</button>
-          <button class="btn btn-ghost" id="addTokenBtn">Add LUNAQ</button>
-          <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank"><button class="btn btn-ghost">Element Collection</button></a>
+        </div>
+
+        <div class="launch-band">
+          <div class="launch-box">
+            <div class="label">Status</div>
+            <div class="value">Early Phase Window</div>
+            <div class="small-note">Limited liquidity first, then main rollout</div>
+          </div>
+          <div class="launch-box">
+            <div class="label">Main Liquidity</div>
+            <div class="value">12</div>
+            <div class="small-note">Primary liquidity phase remains scheduled</div>
+          </div>
+          <div class="launch-box">
+            <div class="label">Supply</div>
+            <div class="value">7,777,777</div>
+            <div class="small-note">Low fixed supply before broader market exposure</div>
+          </div>
         </div>
 
         <div class="grid3" style="margin-top:16px">
           <div class="stat">
-            <div class="label">Your LUNAQ Balance</div>
-            <div class="value" id="balanceValue">0</div>
-          </div>
-          <div class="stat">
-            <div class="label">Detected NFTs</div>
-            <div class="value" id="detectedNftsValue">0</div>
+            <div class="label">Total Supply</div>
+            <div class="value" id="supplyValue">7,777,777</div>
           </div>
           <div class="stat">
             <div class="label">Chain</div>
-            <div class="value" id="chainValue">Not connected</div>
+            <div class="value" id="chainValue">BSC</div>
+          </div>
+          <div class="stat">
+            <div class="label">Your Balance</div>
+            <div class="value" id="balanceValue">0</div>
           </div>
         </div>
       </div>
 
-      <div class="card hero-right">
+      <div class="card hero-right" id="wallet">
         <div class="panel-section">
           <div class="tiny">Wallet panel</div>
           <h3 style="margin:8px 0 0;font-size:28px">Live connection</h3>
         </div>
-
         <div class="panel-section">
           <div class="tiny">Status</div>
           <div id="statusText" style="margin-top:10px">Ready</div>
         </div>
-
         <div class="panel-section">
           <div class="tiny">Connected wallet</div>
           <div id="walletText" style="margin-top:10px" class="mono">No wallet connected</div>
         </div>
-
         <div class="panel-section">
           <div class="tiny">Network</div>
           <div id="networkText" style="margin-top:10px">Not connected</div>
         </div>
-
         <div class="panel-section jackpot-box">
           <div class="tiny">Jackpot live</div>
           <div id="jackpotText" style="margin-top:10px;font-size:30px;font-weight:700">0 BNB</div>
           <div class="small-note">Current jackpot pool on the NFT contract.</div>
         </div>
-
         <div class="panel-section">
           <div class="tiny">Jackpot tickets</div>
           <div id="ticketsText" style="margin-top:10px">0</div>
         </div>
-
         <div class="panel-section">
-          <div class="tiny">NFT contract</div>
-          <div class="mono" style="margin-top:10px">0x9B11FbAaB535134c64D764E938Be4f652E4c0E6E</div>
+          <div class="tiny">Token address</div>
+          <div class="mono" id="tokenText" style="margin-top:10px">0x7ed17dde21a63df433839fb37f3cf1460576a2ac</div>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-ghost" id="copyBtn">Copy address</button>
+            <button class="btn btn-ghost" id="copyNftBtn">Copy NFT contract</button>
+          </div>
         </div>
-
-        <div class="panel-section">
-          <div class="tiny">LUNAQ token</div>
-          <div class="mono" style="margin-top:10px">0x7ed17dde21a63df433839fb37f3cf1460576a2ac</div>
-        </div>
-
-        <div class="notice">
-          If you use Bitget Wallet mobile, after switching to BSC you may need to press Connect Wallet again.
-        </div>
+        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. On mobile, after switching to BSC, tap Connect Wallet again if needed.</div>
       </div>
     </div>
 
@@ -273,27 +322,115 @@
       <div class="tiny">NFT Claim</div>
       <h3 style="font-size:34px;margin:10px 0 0">Open your NFT and enter the jackpot</h3>
       <p class="lead" style="font-size:16px">
-        The site scans minted NFTs, checks current ownership, and shows only NFTs owned by the connected wallet.
+        If you own a LUNAQ Jackpot NFT, you can open it once on this page. Each opened NFT receives a reward of 500 or 800 LUNAQ and gets one ticket in the jackpot.
       </p>
 
       <div class="panel-section">
         <div class="tiny">Your NFT status</div>
         <div id="nftStatus" style="margin-top:10px">Connect wallet to load your NFTs.</div>
+
+        <div class="manual-row">
+          <input id="manualTokenId" class="manual-input" type="number" min="1" placeholder="Manual Token ID for mobile fallback" />
+          <button class="btn btn-ghost btn-small" id="checkManualBtn">Check Token ID</button>
+          <button class="btn btn-primary btn-small" id="loadNftsBtn">Load My NFTs</button>
+        </div>
+
+        <div class="small-note">
+          Mobile fallback: if auto-detect is slow, enter your Token ID manually and press “Check Token ID”.
+        </div>
       </div>
 
       <div id="nftList" class="nft-grid"></div>
+    </div>
+
+    <div class="grid3" id="about">
+      <div class="card box">
+        <h3>Scarcity by design</h3>
+        <p class="lead" style="font-size:16px">Fixed supply at 7,777,777 LUNAQ with a premium long-term positioning model built for scarcity and clarity.</p>
+      </div>
+      <div class="card box">
+        <h3>Membership utility</h3>
+        <p class="lead" style="font-size:16px">Use LUNAQ for gated communities, premium access, digital identity, and ecosystem unlocks.</p>
+      </div>
+      <div class="card box">
+        <h3>Governance-ready</h3>
+        <p class="lead" style="font-size:16px">Prepared for future DAO voting, staking, and holder-tier utility.</p>
+      </div>
+    </div>
+
+    <div class="card section" id="why">
+      <div class="tiny">Why early matters</div>
+      <h3 style="font-size:34px;margin:10px 0 0">Built for utility, not just speculation</h3>
+      <div class="grid4">
+        <div class="why-box">
+          <h3 style="font-size:22px;margin:0">Web3 Identity</h3>
+          <p>A unique wallet-linked identity layer designed for future on-chain verification and access control.</p>
+        </div>
+        <div class="why-box">
+          <h3 style="font-size:22px;margin:0">Membership Access</h3>
+          <p>Premium communities, gated features, holder-only access, and digital membership architecture.</p>
+        </div>
+        <div class="why-box">
+          <h3 style="font-size:22px;margin:0">Future Staking</h3>
+          <p>Early supporters are positioned first for future staking rewards and ecosystem retention mechanics.</p>
+        </div>
+        <div class="why-box">
+          <h3 style="font-size:22px;margin:0">Early Positioning</h3>
+          <p>A low-supply structure built to reward attention and participation before large-scale rollout.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card section" id="roadmap">
+      <div class="tiny">Roadmap</div>
+      <h3 style="font-size:34px;margin:10px 0 0">LUNAQ roadmap — 16 months</h3>
+      <p class="lead" style="font-size:16px">A phased rollout focused on traction first, then utility, then identity and real-world access use cases.</p>
+      <div class="roadmap-grid">
+        <div class="phase"><div class="months">Months 1–2</div><h4>Foundation</h4><ul><li>Deploy LUNAQ on BNB Smart Chain</li><li>Verify contract on BscScan</li><li>Launch branding, website, and wallet connect</li><li>Open Telegram and X channels</li></ul></div>
+        <div class="phase"><div class="months">Months 3–4</div><h4>Liquidity & Visibility</h4><ul><li>Add PancakeSwap liquidity</li><li>Appear on DexScreener and DEXTools</li><li>Start community growth campaigns</li><li>Run early awareness pushes</li></ul></div>
+        <div class="phase"><div class="months">Months 5–6</div><h4>LUNAQ ID</h4><ul><li>Launch unique wallet-linked identity code</li><li>Enable wallet login and profile creation</li><li>Generate unique LUNAQ ID</li></ul></div>
+        <div class="phase"><div class="months">Months 7–8</div><h4>Membership System</h4><ul><li>Launch holder levels based on token amount</li><li>Unlock gated communities and premium access</li><li>Connect holder status to utility features</li></ul></div>
+        <div class="phase"><div class="months">Months 9–10</div><h4>Platform Utility</h4><ul><li>Launch QR and code verification flow</li><li>Add user dashboard</li><li>Enable access verification for partners</li></ul></div>
+        <div class="phase"><div class="months">Months 11–12</div><h4>Staking & Rewards</h4><ul><li>Launch staking for holders</li><li>Introduce reward mechanics</li><li>Add loyalty incentives</li></ul></div>
+        <div class="phase"><div class="months">Months 13–14</div><h4>Ecosystem Expansion</h4><ul><li>Explore NFT integration</li><li>Enable marketplace or partner utility</li><li>Expand on-chain identity usage</li></ul></div>
+        <div class="phase"><div class="months">Months 15–16</div><h4>Global Utility</h4><ul><li>Prepare mobile-first flow</li><li>Expand real-world access integrations</li><li>Position LUNAQ as digital identity infrastructure</li></ul></div>
+      </div>
+    </div>
+
+    <div class="grid2" id="tokenomics">
+      <div class="card section">
+        <div class="tiny">Tokenomics</div>
+        <h3 style="font-size:34px;margin:10px 0 0">Clean launch structure</h3>
+        <div class="list-item"><span>Community</span><strong>35%</strong></div>
+        <div class="list-item"><span>Treasury</span><strong>20%</strong></div>
+        <div class="list-item"><span>Liquidity</span><strong>15%</strong></div>
+        <div class="list-item"><span>Development</span><strong>15%</strong></div>
+        <div class="list-item"><span>Team</span><strong>10%</strong></div>
+        <div class="list-item"><span>Partners</span><strong>5%</strong></div>
+      </div>
+
+      <div class="card section">
+        <div class="tiny">Official links</div>
+        <h3 style="font-size:34px;margin:10px 0 0">Project access</h3>
+        <div class="list-item"><a href="https://bscscan.com/token/0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank">BscScan verified contract</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank">Element collection</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://t.me/lunaqofficial" target="_blank">Telegram announcements</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://t.me/lunaqcommunity" target="_blank">Telegram community</a><strong>Open</strong></div>
+        <div class="list-item"><a href="https://x.com/lunaq_office" target="_blank">Official X account</a><strong>Open</strong></div>
+        <div class="notice">Live on GitHub Pages or Vercel. You can move to a custom domain later without rebuilding the site.</div>
+      </div>
     </div>
 
     <footer>
       <div class="card footer-inner">
         <div>
           <div style="font-size:24px;font-weight:700">LUNAQ</div>
-          <div class="sub">Utility NFT + LUNAQ reward + jackpot participation.</div>
+          <div class="sub">Elegant utility. Clear token structure. Wallet-first onboarding.</div>
         </div>
         <div class="link-row">
-          <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank"><button class="btn btn-ghost">Element</button></a>
+          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
           <a href="https://x.com/lunaq_office" target="_blank"><button class="btn btn-ghost">X</button></a>
-          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-primary">Telegram</button></a>
+          <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank"><button class="btn btn-primary">View on Element</button></a>
         </div>
       </div>
     </footer>
@@ -302,12 +439,19 @@
   <script>
     const TOKEN_ADDRESS = "0x7ed17dde21a63df433839fb37f3cf1460576a2ac";
     const NFT_CONTRACT = "0x9B11FbAaB535134c64D764E938Be4f652E4c0E6E";
-    const BSC_CHAIN_ID = 56;
-    const BSC_CHAIN_ID_HEX = "0x38";
+    const CHAIN_ID_HEX = "0x38";
+    const CHAIN_ID_NUM = 56;
+    const CHAIN_NAME = "BNB Smart Chain";
+    const RPC_URL = "https://bsc-dataseed.binance.org";
+    const EXPLORER = "https://bscscan.com";
+    const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
+    const LAUNCH_AT = new Date("2026-03-29T18:00:00").getTime();
 
     const ERC20_ABI = [
       "function balanceOf(address owner) view returns (uint256)",
-      "function decimals() view returns (uint8)"
+      "function decimals() view returns (uint8)",
+      "function symbol() view returns (string)",
+      "function totalSupply() view returns (uint256)"
     ];
 
     const NFT_ABI = [
@@ -325,38 +469,34 @@
     const networkText = document.getElementById("networkText");
     const chainValue = document.getElementById("chainValue");
     const balanceValue = document.getElementById("balanceValue");
+    const supplyValue = document.getElementById("supplyValue");
     const nftStatus = document.getElementById("nftStatus");
     const nftList = document.getElementById("nftList");
     const jackpotText = document.getElementById("jackpotText");
     const ticketsText = document.getElementById("ticketsText");
-    const jackpotHero = document.getElementById("jackpotHero");
-    const ticketsHero = document.getElementById("ticketsHero");
-    const detectedNftsValue = document.getElementById("detectedNftsValue");
     const connectBtn = document.getElementById("connectBtn");
+    const loadNftsBtn = document.getElementById("loadNftsBtn");
+    const manualTokenId = document.getElementById("manualTokenId");
+    const checkManualBtn = document.getElementById("checkManualBtn");
 
     function setStatus(v){ statusText.textContent = v; }
     function shortAddress(address){ return address ? `${address.slice(0,6)}...${address.slice(-4)}` : ""; }
 
-    async function getProvider() {
-      if (!window.ethereum) throw new Error("No wallet provider");
+    async function getProvider(){
+      if(!window.ethereum) throw new Error("No wallet provider found");
       return new ethers.BrowserProvider(window.ethereum);
     }
 
-    async function getConnectedAccount(provider) {
+    async function getConnectedAccount(provider){
       const accounts = await provider.send("eth_accounts", []);
       return accounts.length ? accounts[0] : null;
     }
 
-    async function requestAccount(provider) {
-      const accounts = await provider.send("eth_requestAccounts", []);
-      return accounts[0];
-    }
-
-    function renderNetwork(chainId) {
-      if (Number(chainId) === BSC_CHAIN_ID) {
-        networkText.textContent = "BNB Smart Chain";
+    function renderChain(chainId){
+      if(Number(chainId) === CHAIN_ID_NUM){
+        networkText.textContent = CHAIN_NAME;
         chainValue.textContent = "BSC";
-      } else {
+      }else{
         networkText.textContent = `Chain ${chainId}`;
         chainValue.textContent = `Chain ${chainId}`;
       }
@@ -365,13 +505,19 @@
     async function readTokenData(account, provider){
       try{
         const token = new ethers.Contract(TOKEN_ADDRESS, ERC20_ABI, provider);
-        const [decimals, balanceRaw] = await Promise.all([
+        const [decimals, totalSupplyRaw] = await Promise.all([
           token.decimals(),
-          token.balanceOf(account)
+          token.totalSupply()
         ]);
 
-        const balance = Number(ethers.formatUnits(balanceRaw, decimals));
-        balanceValue.textContent = balance.toLocaleString(undefined,{maximumFractionDigits:4});
+        const supply = Number(ethers.formatUnits(totalSupplyRaw, decimals));
+        supplyValue.textContent = supply.toLocaleString();
+
+        if(account){
+          const balanceRaw = await token.balanceOf(account);
+          const balance = Number(ethers.formatUnits(balanceRaw, decimals));
+          balanceValue.textContent = balance.toLocaleString(undefined,{maximumFractionDigits:4});
+        }
       }catch(e){
         balanceValue.textContent = "0";
       }
@@ -380,11 +526,9 @@
     async function loadJackpot(provider){
       try{
         const network = await provider.getNetwork();
-        if (Number(network.chainId) !== BSC_CHAIN_ID) {
+        if(Number(network.chainId) !== CHAIN_ID_NUM){
           jackpotText.textContent = "Switch to BSC";
-          jackpotHero.textContent = "0.0000";
           ticketsText.textContent = "Switch to BSC";
-          ticketsHero.textContent = "0";
           return;
         }
 
@@ -394,16 +538,11 @@
           nft.ticketsCount()
         ]);
 
-        const jackpotFormatted = Number(ethers.formatEther(jackpotRaw)).toFixed(4);
-        jackpotText.textContent = `${jackpotFormatted} BNB`;
-        jackpotHero.textContent = jackpotFormatted;
+        jackpotText.textContent = `${Number(ethers.formatEther(jackpotRaw)).toFixed(4)} BNB`;
         ticketsText.textContent = tickets.toString();
-        ticketsHero.textContent = tickets.toString();
       }catch(e){
         jackpotText.textContent = "Unavailable";
-        jackpotHero.textContent = "0.0000";
         ticketsText.textContent = "Unavailable";
-        ticketsHero.textContent = "0";
       }
     }
 
@@ -411,25 +550,84 @@
       try{
         const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
         const uri = await nft.tokenURI(tokenId);
-        const response = await fetch(uri);
-        const meta = await response.json();
+        const res = await fetch(uri);
+        const meta = await res.json();
         return meta.image || "";
       }catch(e){
         return "";
       }
     }
 
-    async function loadNFTData(account, provider){
+    function renderTokenCard(tokenId, alreadyClaimed, imageUrl){
+      return `
+        <div class="nft-card">
+          ${imageUrl ? `<img src="${imageUrl}" alt="NFT #${tokenId}" style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,0.08);margin-bottom:14px;" />` : ""}
+          <div class="nft-title">LUNAQ NFT #${tokenId}</div>
+          <div class="badge">${alreadyClaimed ? "Already Opened" : "Ready To Open"}</div>
+          <div class="small-note" style="margin-top:12px;">Reward: 500 or 800 LUNAQ + 1 jackpot ticket</div>
+          <div style="margin-top:16px;">
+            ${
+              alreadyClaimed
+                ? `<button class="btn btn-ghost btn-small" disabled>Already Opened</button>`
+                : `<button class="btn btn-primary btn-small" onclick="claimNFT(${tokenId})">Open NFT</button>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    async function checkManualToken(){
       try{
-        const network = await provider.getNetwork();
-        if (Number(network.chainId) !== BSC_CHAIN_ID) {
-          nftStatus.innerHTML = `<span class="warn">Switch to BSC first.</span>`;
-          nftList.innerHTML = "";
-          detectedNftsValue.textContent = "0";
+        nftList.innerHTML = "";
+        const value = manualTokenId.value.trim();
+        if(!value){
+          setStatus("Please enter a Token ID.");
           return;
         }
 
-        nftStatus.innerHTML = "Scanning collection for NFTs owned by this wallet...";
+        const provider = await getProvider();
+        const account = await getConnectedAccount(provider);
+
+        if(!account){
+          setStatus("Connect wallet first.");
+          return;
+        }
+
+        const network = await provider.getNetwork();
+        if(Number(network.chainId) !== CHAIN_ID_NUM){
+          setStatus("Switch to BSC first.");
+          return;
+        }
+
+        const tokenId = Number(value);
+        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
+        const owner = await nft.ownerOf(tokenId);
+
+        if(owner.toLowerCase() !== account.toLowerCase()){
+          nftStatus.innerHTML = "That Token ID is not owned by the connected wallet.";
+          return;
+        }
+
+        const alreadyClaimed = await nft.claimed(tokenId);
+        const imageUrl = await tryLoadTokenImage(provider, tokenId);
+
+        nftStatus.innerHTML = `Token ID #${tokenId} is owned by this wallet.`;
+        nftList.innerHTML = renderTokenCard(tokenId, alreadyClaimed, imageUrl);
+      }catch(e){
+        nftStatus.innerHTML = "Could not verify that Token ID.";
+      }
+    }
+
+    async function loadNFTData(account, provider){
+      try{
+        const network = await provider.getNetwork();
+        if(Number(network.chainId) !== CHAIN_ID_NUM){
+          nftStatus.innerHTML = "Switch to BSC first, then tap Connect Wallet again if needed.";
+          nftList.innerHTML = "";
+          return;
+        }
+
+        nftStatus.innerHTML = "Loading your NFTs... This may take a few seconds on mobile.";
         nftList.innerHTML = "";
 
         const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
@@ -437,14 +635,14 @@
         const minted = Number(mintedRaw);
 
         if(minted === 0){
-          nftStatus.innerHTML = "No NFTs have been minted yet.";
-          detectedNftsValue.textContent = "0";
+          nftStatus.innerHTML = "No NFTs minted yet.";
           return;
         }
 
         const owned = [];
+        const scanLimit = Math.min(minted, 120);
 
-        for(let tokenId = 1; tokenId <= minted; tokenId++){
+        for(let tokenId = 1; tokenId <= scanLimit; tokenId++){
           try{
             const owner = await nft.ownerOf(tokenId);
             if(owner.toLowerCase() === account.toLowerCase()){
@@ -454,69 +652,90 @@
           }catch(_){}
         }
 
-        detectedNftsValue.textContent = owned.length.toString();
-
         if(owned.length === 0){
-          nftStatus.innerHTML = `<span class="danger">No LUNAQ Jackpot NFTs found in this wallet.</span>`;
+          nftStatus.innerHTML = "No NFTs found automatically. On mobile, use the manual Token ID field above.";
           nftList.innerHTML = "";
           return;
         }
 
-        nftStatus.innerHTML = `<span class="ok">Found ${owned.length} NFT(s) in this wallet.</span>`;
+        nftStatus.innerHTML = `Found ${owned.length} NFT(s) in this wallet.`;
 
         const cards = [];
-        for (const item of owned) {
+        for(const item of owned){
           const imageUrl = await tryLoadTokenImage(provider, item.tokenId);
-
-          cards.push(`
-            <div class="nft-card">
-              ${imageUrl ? `<img src="${imageUrl}" alt="NFT #${item.tokenId}" style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,0.08);margin-bottom:14px;" />` : ""}
-              <div class="nft-title">LUNAQ NFT #${item.tokenId}</div>
-              <div class="badge ${item.alreadyClaimed ? "warn" : "ok"}">${item.alreadyClaimed ? "Already Opened" : "Ready To Open"}</div>
-              <div class="small-note" style="margin-top:12px;">Reward: 500 or 800 LUNAQ + 1 jackpot ticket</div>
-              <div style="margin-top:16px;">
-                ${item.alreadyClaimed
-                  ? `<button class="btn btn-ghost btn-small" disabled>Already Opened</button>`
-                  : `<button class="btn btn-primary btn-small" onclick="claimNFT(${item.tokenId})">Open NFT</button>`}
-              </div>
-            </div>
-          `);
+          cards.push(renderTokenCard(item.tokenId, item.alreadyClaimed, imageUrl));
         }
 
         nftList.innerHTML = cards.join("");
       }catch(e){
-        detectedNftsValue.textContent = "0";
-        nftStatus.innerHTML = `<span class="danger">Could not load your NFTs right now.</span>`;
+        nftStatus.innerHTML = "Could not load your NFTs automatically. Try the manual Token ID field above.";
         nftList.innerHTML = "";
       }
     }
 
     async function connectWallet(){
-      try{
-        const provider = await getProvider();
-        setStatus("Connecting wallet...");
+      if(!window.ethereum){
+        setStatus("Install MetaMask, Bitget Wallet, or another EVM wallet first.");
+        return;
+      }
 
-        const account = await requestAccount(provider);
+      try{
+        setStatus("Connecting wallet...");
+        const provider = await getProvider();
+        const accounts = await provider.send("eth_requestAccounts", []);
+        const account = accounts[0];
         const network = await provider.getNetwork();
 
         walletText.textContent = account;
+        renderChain(network.chainId);
         connectBtn.textContent = shortAddress(account);
-        renderNetwork(network.chainId);
 
         await readTokenData(account, provider);
         await loadJackpot(provider);
 
-        if (Number(network.chainId) !== BSC_CHAIN_ID) {
+        if(Number(network.chainId) !== CHAIN_ID_NUM){
           setStatus("Wallet connected. Please switch to BSC.");
-          nftStatus.innerHTML = `<span class="warn">Please switch to BSC, then press Connect Wallet again.</span>`;
+          nftStatus.innerHTML = "Tap Switch to BSC, then Connect Wallet again if needed.";
           nftList.innerHTML = "";
           return;
         }
 
         setStatus("Wallet connected.");
         await loadNFTData(account, provider);
-      } catch(e){
+      }catch(e){
         setStatus("Wallet connection cancelled or failed.");
+      }
+    }
+
+    async function claimNFT(tokenId){
+      try{
+        if(!window.ethereum){
+          setStatus("Install a wallet first.");
+          return;
+        }
+
+        const provider = await getProvider();
+        const network = await provider.getNetwork();
+
+        if(Number(network.chainId) !== CHAIN_ID_NUM){
+          setStatus("Switch to BSC before opening NFT.");
+          return;
+        }
+
+        const signer = await provider.getSigner();
+        const account = await signer.getAddress();
+        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, signer);
+
+        setStatus(`Opening NFT #${tokenId}...`);
+        const tx = await nft.claim(tokenId);
+        await tx.wait();
+
+        setStatus(`NFT #${tokenId} opened successfully.`);
+        await readTokenData(account, provider);
+        await loadJackpot(provider);
+        await loadNFTData(account, provider);
+      }catch(e){
+        setStatus("Open NFT failed or was cancelled.");
       }
     }
 
@@ -527,31 +746,23 @@
       }
 
       try{
-        setStatus("Switching to BNB Smart Chain...");
-
         await window.ethereum.request({
           method:"wallet_switchEthereumChain",
-          params:[{ chainId: BSC_CHAIN_ID_HEX }]
+          params:[{chainId: CHAIN_ID_HEX}]
         });
+
+        setStatus("Switched to BSC. If wallet disconnects on mobile, tap Connect Wallet again.");
 
         const provider = await getProvider();
         const network = await provider.getNetwork();
-        renderNetwork(network.chainId);
-
-        setStatus("BSC selected. Press Connect Wallet again if needed.");
-
+        renderChain(network.chainId);
         await loadJackpot(provider);
 
         const account = await getConnectedAccount(provider);
-        if (account) {
+        if(account && Number(network.chainId) === CHAIN_ID_NUM){
           walletText.textContent = account;
           connectBtn.textContent = shortAddress(account);
           await readTokenData(account, provider);
-
-          if (Number(network.chainId) === BSC_CHAIN_ID) {
-            await loadNFTData(account, provider);
-            setStatus("Connected to BNB Smart Chain.");
-          }
         }
       }catch(err){
         if(err.code === 4902){
@@ -559,19 +770,19 @@
             await window.ethereum.request({
               method:"wallet_addEthereumChain",
               params:[{
-                chainId: BSC_CHAIN_ID_HEX,
-                chainName:"BNB Smart Chain",
-                nativeCurrency:{ name:"BNB", symbol:"BNB", decimals:18 },
-                rpcUrls:["https://bsc-dataseed.binance.org"],
-                blockExplorerUrls:["https://bscscan.com"]
+                chainId: CHAIN_ID_HEX,
+                chainName: CHAIN_NAME,
+                nativeCurrency: CURRENCY,
+                rpcUrls:[RPC_URL],
+                blockExplorerUrls:[EXPLORER]
               }]
             });
-            setStatus("BSC added. Press Connect Wallet.");
+            setStatus("BNB Smart Chain added. Tap Connect Wallet.");
           }catch(e){
             setStatus("Could not add BSC to wallet.");
           }
         }else{
-          setStatus("Network switch failed. Press Connect Wallet again.");
+          setStatus("Network switch failed.");
         }
       }
     }
@@ -599,68 +810,124 @@
       }
     }
 
-    async function claimNFT(tokenId){
+    async function copyAddress(){
       try{
-        const provider = await getProvider();
-        const network = await provider.getNetwork();
-
-        if (Number(network.chainId) !== BSC_CHAIN_ID) {
-          setStatus("Switch to BSC before opening NFT.");
-          return;
-        }
-
-        const signer = await provider.getSigner();
-        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, signer);
-        const account = await signer.getAddress();
-
-        setStatus(`Opening NFT #${tokenId}... Confirm in wallet.`);
-        const tx = await nft.claim(tokenId);
-        await tx.wait();
-
-        setStatus(`NFT #${tokenId} opened successfully.`);
-        await readTokenData(account, provider);
-        await loadJackpot(provider);
-        await loadNFTData(account, provider);
+        await navigator.clipboard.writeText(TOKEN_ADDRESS);
+        setStatus("Token address copied.");
       }catch(e){
-        setStatus("Open NFT failed or was cancelled.");
+        setStatus("Could not copy token address.");
       }
+    }
+
+    async function copyNftAddress(){
+      try{
+        await navigator.clipboard.writeText(NFT_CONTRACT);
+        setStatus("NFT contract address copied.");
+      }catch(e){
+        setStatus("Could not copy NFT contract address.");
+      }
+    }
+
+    let lastValues = { days:null, hours:null, minutes:null, seconds:null };
+
+    function animateValue(el, cardEl, value, key){
+      if(lastValues[key] !== value){
+        el.textContent = String(value).padStart(2, "0");
+        el.classList.remove("flip");
+        void el.offsetWidth;
+        el.classList.add("flip");
+        cardEl.classList.remove("active");
+        void cardEl.offsetWidth;
+        cardEl.classList.add("active");
+        lastValues[key] = value;
+      }
+    }
+
+    function updateCountdown(){
+      const now = Date.now();
+      let diff = LAUNCH_AT - now;
+
+      if (diff <= 0){
+        document.getElementById("countdownWrap").innerHTML = `
+          <div class="top">Early phase countdown</div>
+          <div class="subtop">Main liquidity on 12</div>
+          <div class="timer">
+            <div class="count-card active" style="grid-column:1/-1;">
+              <div class="num">LIVE</div>
+              <div class="lab">Early Phase Active</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days * (1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours * (1000*60*60);
+      const minutes = Math.floor(diff / (1000*60));
+      diff -= minutes * (1000*60);
+      const seconds = Math.floor(diff / 1000);
+
+      animateValue(document.getElementById("days"), document.getElementById("daysCard"), days, "days");
+      animateValue(document.getElementById("hours"), document.getElementById("hoursCard"), hours, "hours");
+      animateValue(document.getElementById("minutes"), document.getElementById("minutesCard"), minutes, "minutes");
+      animateValue(document.getElementById("seconds"), document.getElementById("secondsCard"), seconds, "seconds");
     }
 
     document.getElementById("connectBtn").addEventListener("click", connectWallet);
     document.getElementById("switchBtn").addEventListener("click", switchToBSC);
     document.getElementById("addTokenBtn").addEventListener("click", addTokenToWallet);
+    document.getElementById("copyBtn").addEventListener("click", copyAddress);
+    document.getElementById("copyNftBtn").addEventListener("click", copyNftAddress);
+    document.getElementById("loadNftsBtn").addEventListener("click", async () => {
+      try{
+        const provider = await getProvider();
+        const account = await getConnectedAccount(provider);
+        if(!account){
+          setStatus("Connect wallet first.");
+          return;
+        }
+        await loadNFTData(account, provider);
+      }catch(e){
+        setStatus("Could not load NFTs.");
+      }
+    });
+    document.getElementById("checkManualBtn").addEventListener("click", checkManualToken);
+
     window.claimNFT = claimNFT;
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     (async function boot(){
       try{
-        if (!window.ethereum) return;
+        if(!window.ethereum) return;
 
         const provider = await getProvider();
         await loadJackpot(provider);
 
         const account = await getConnectedAccount(provider);
-        if (!account) return;
+        if(!account) return;
 
         walletText.textContent = account;
         connectBtn.textContent = shortAddress(account);
 
         const network = await provider.getNetwork();
-        renderNetwork(network.chainId);
+        renderChain(network.chainId);
 
         await readTokenData(account, provider);
 
-        if (Number(network.chainId) === BSC_CHAIN_ID) {
-          await loadNFTData(account, provider);
-          setStatus("Wallet already connected.");
+        if(Number(network.chainId) === CHAIN_ID_NUM){
+          setStatus("Wallet detected.");
         } else {
           setStatus("Wallet detected. Please switch to BSC.");
-          nftStatus.innerHTML = `<span class="warn">Please switch to BSC, then press Connect Wallet again.</span>`;
         }
-      } catch(_) {}
+      }catch(_){}
     })();
 
     if(window.ethereum && window.ethereum.on){
-      window.ethereum.on("accountsChanged", () => setTimeout(() => location.reload(), 300));
+      window.ethereum.on("accountsChanged", () => location.reload());
       window.ethereum.on("chainChanged", () => setTimeout(() => location.reload(), 500));
     }
   </script>
