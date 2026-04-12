@@ -14,9 +14,6 @@
       --muted:#b3b8c2;
       --accent:#d4af37;
       --accent2:#f4df95;
-      --ok:#31c48d;
-      --warn:#f59e0b;
-      --danger:#ef4444;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -837,7 +834,7 @@
         void el.offsetWidth;
         el.classList.add("flip");
         cardEl.classList.remove("active");
-        void cardEl.offsetWidth;
+        void el.offsetWidth;
         cardEl.classList.add("active");
         lastValues[key] = value;
       }
