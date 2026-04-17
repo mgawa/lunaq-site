@@ -3,930 +3,835 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LUNAQ — Identity for the Web3 Era</title>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <title>LUNAQ — Luxury Web3 Identity</title>
+  <meta name="description" content="LUNAQ is a premium BEP-20 token on BNB Smart Chain. Luxury design, clean utility messaging, and an interactive vault game experience." />
+  <meta name="theme-color" content="#0b0c10" />
   <style>
     :root{
-      --bg:#090b10;
-      --panel:rgba(255,255,255,0.05);
-      --line:rgba(255,255,255,0.10);
-      --text:#ffffff;
-      --muted:#b3b8c2;
-      --accent:#d4af37;
-      --accent2:#f4df95;
+      --bg:#07080b;
+      --bg2:#0d0f14;
+      --panel:rgba(16,18,24,.88);
+      --panel2:rgba(22,24,31,.94);
+      --stroke:rgba(212,175,106,.16);
+      --stroke-soft:rgba(255,255,255,.08);
+      --text:#f6f0e4;
+      --muted:#bcae90;
+      --soft:#ddd0b4;
+      --gold:#d4af6a;
+      --gold2:#f0d49a;
+      --gold3:#9e7740;
+      --white:#fffaf0;
+      --danger:#e87979;
+      --success:#6dd7a3;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --radius:24px;
+      --max:1180px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(212,175,55,0.14), transparent 30%),
-        radial-gradient(circle at right, rgba(255,255,255,0.05), transparent 20%),
-        linear-gradient(180deg,#090b10 0%, #0b0e14 42%, #090b10 100%);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(212,175,106,.10), transparent 26%),
+        radial-gradient(circle at 90% 10%, rgba(212,175,106,.08), transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(212,175,106,.05), transparent 28%),
+        linear-gradient(180deg, #06070a 0%, #0a0c11 42%, #07080b 100%);
+      min-height:100vh;
+      overflow-x:hidden;
     }
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:1180px;margin:0 auto;padding:24px}
-    .card{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:30px;
-      backdrop-filter: blur(12px);
-      box-shadow:0 14px 40px rgba(0,0,0,0.22);
+    body::before{
+      content:"";
+      position:fixed; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size:42px 42px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
+      opacity:.22;
     }
-    .header{
-      display:flex;justify-content:space-between;align-items:center;gap:16px;
-      padding:18px 20px;
+    a{text-decoration:none;color:inherit}
+    .container{width:min(var(--max), calc(100% - 32px));margin:0 auto}
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(7,8,11,.78);
+      border-bottom:1px solid rgba(212,175,106,.09);
     }
-    .brand{display:flex;align-items:center;gap:14px}
-    .logo{
-      position:relative;width:58px;height:58px;border-radius:22px;
-      background:rgba(255,255,255,0.04);border:1px solid var(--line);
-      overflow:hidden;
-      box-shadow: 0 0 40px rgba(212,175,55,0.08);
+    .nav-inner{
+      min-height:78px; display:flex; align-items:center; justify-content:space-between; gap:20px;
     }
-    .logo:before{
-      content:"";position:absolute;inset:9px;border-radius:50%;
-      background:linear-gradient(135deg,#ddd 0%,#f4df95 40%,#d4af37 100%);
+    .brand{display:flex; align-items:center; gap:14px}
+    .logo-mark{
+      width:46px; height:46px; border-radius:16px; position:relative; overflow:hidden;
+      border:1px solid rgba(212,175,106,.24);
+      background:
+        radial-gradient(circle at 34% 30%, rgba(255,255,255,.18), transparent 18%),
+        linear-gradient(135deg, rgba(212,175,106,.28), rgba(84,56,22,.28)),
+        linear-gradient(180deg, #17130d 0%, #0f0d0a 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 10px 30px rgba(0,0,0,.4);
+      flex-shrink:0;
     }
-    .logo:after{
-      content:"";position:absolute;left:24px;top:11px;width:24px;height:24px;border-radius:50%;
-      background:var(--bg);
+    .logo-mark:before{
+      content:""; position:absolute; inset:11px;
+      border-radius:50%; border:2px solid var(--gold2);
+      box-shadow:0 0 24px rgba(212,175,106,.18);
     }
-    .brand h1{font-size:28px;margin:0}
-    .sub{color:var(--muted);font-size:14px;margin-top:4px}
-    .nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-    .nav a{font-size:14px;color:var(--muted)}
+    .logo-mark:after{
+      content:""; width:10px; height:10px; border-radius:50%;
+      background:linear-gradient(135deg, var(--gold2), var(--gold3));
+      position:absolute; right:10px; top:10px;
+    }
+    .logo-text{display:flex; flex-direction:column; line-height:1}
+    .logo-text strong{font-size:22px; letter-spacing:.18em; color:var(--white)}
+    .logo-text span{
+      margin-top:5px; color:var(--muted); font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    }
+    .nav-links{display:flex; gap:22px; flex-wrap:wrap; color:var(--muted); font-weight:700}
+    .nav-links a:hover{color:var(--white)}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
     .btn{
-      border:none;border-radius:18px;padding:13px 18px;cursor:pointer;
-      font-weight:600;font-size:14px;transition:all .22s ease;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 18px; border-radius:16px; border:1px solid transparent;
+      font-weight:800; cursor:pointer; transition:.18s ease;
+      font-family:inherit; font-size:15px;
     }
     .btn:hover{transform:translateY(-1px)}
-    .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
     .btn-primary{
-      background:linear-gradient(135deg,var(--accent2),var(--accent));
-      color:#111;box-shadow:0 8px 24px rgba(212,175,55,0.18);
+      color:#120f09;
+      background:linear-gradient(135deg, var(--gold2), var(--gold));
+      box-shadow:0 12px 28px rgba(212,175,106,.16);
     }
-    .btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--line)}
-    .btn-small{
-      padding:10px 14px;
-      font-size:13px;
-      border-radius:14px;
+    .btn-ghost{
+      color:var(--soft); background:rgba(255,255,255,.02); border-color:rgba(212,175,106,.14);
     }
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:24px}
-    .hero-left,.hero-right{padding:34px}
+    .hero{padding:84px 0 38px}
+    .hero-grid{display:grid; grid-template-columns:1.12fr .88fr; gap:28px; align-items:center}
     .eyebrow{
-      display:inline-block;background:rgba(212,175,55,0.12);color:var(--accent2);
-      border:1px solid rgba(212,175,55,0.2);padding:8px 12px;border-radius:999px;font-size:13px;
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(212,175,106,.16); background:rgba(255,255,255,.02);
+      color:var(--soft); font-size:13px; font-weight:700; letter-spacing:.03em;
     }
-    h2{font-size:56px;line-height:1.03;margin:18px 0 0;letter-spacing:-0.02em}
-    .lead{color:var(--muted);font-size:18px;line-height:1.7;max-width:760px}
-    .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-    .launch-band{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
-    .launch-box,.stat{
-      padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)
+    .dot{
+      width:8px; height:8px; border-radius:50%; background:var(--gold2);
+      box-shadow:0 0 0 6px rgba(212,175,106,.10);
     }
-    .launch-box{
-      background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
+    h1{
+      margin:18px 0 14px; font-size:clamp(44px, 7vw, 84px); line-height:.94; letter-spacing:-.05em;
     }
-    .stat .label,.launch-box .label{font-size:13px;color:var(--muted)}
-    .stat .value,.launch-box .value{font-size:26px;font-weight:700;margin-top:8px}
-    .panel-section{padding:18px;border-radius:22px;background:rgba(0,0,0,0.18);border:1px solid var(--line);margin-top:14px}
-    .tiny{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.18em}
-    .mono{word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
-    .section{margin-top:24px;padding:26px}
-    .box{padding:24px}
-    .box h3{margin:0 0 8px;font-size:24px}
-    .why-box{
-      padding:22px;border-radius:24px;border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.14));
+    .gold{
+      background:linear-gradient(135deg, #fff8ec 12%, #f0d49a 44%, #b88a49 100%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
     }
-    .why-box p{margin:10px 0 0;color:var(--muted);line-height:1.7}
-    .list-item{
-      display:flex;justify-content:space-between;gap:12px;padding:14px 16px;
-      border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,0.04);margin-top:10px;align-items:center;
+    .lead{color:var(--muted); font-size:18px; line-height:1.78; max-width:760px}
+    .hero-cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:24px}
+    .hero-meta{
+      display:flex; gap:14px; flex-wrap:wrap; margin-top:18px; color:var(--muted); font-weight:700; font-size:14px;
     }
-    .roadmap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
-    .phase{padding:18px;border:1px solid var(--line);border-radius:22px;background:rgba(0,0,0,0.18)}
-    .phase .months{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.2em}
-    .phase h4{margin:10px 0 10px;font-size:22px}
-    .phase ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.7}
-    .countdown{
-      margin-top:16px;padding:18px;border-radius:24px;border:1px solid rgba(212,175,55,0.18);
-      background:linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
-      color:#f7e6aa;font-weight:600;position:relative;overflow:hidden;
-      box-shadow:0 0 30px rgba(212,175,55,0.08);
+    .panel{
+      background:var(--panel); border:1px solid var(--stroke); border-radius:var(--radius);
+      box-shadow:var(--shadow); position:relative; overflow:hidden;
     }
-    .countdown:before{
-      content:"";position:absolute;inset:-30% auto auto -20%;width:45%;height:160%;
-      transform:rotate(18deg);
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
-      animation:sweep 5s linear infinite;pointer-events:none;
+    .panel::before{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 24%);
     }
-    @keyframes sweep{
-      from{transform:translateX(-120%) rotate(18deg)}
-      to{transform:translateX(320%) rotate(18deg)}
+    .hero-card{padding:22px}
+    .hero-card h3{margin:0 0 14px; font-size:17px}
+    .stats{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .stat{
+      padding:16px; border-radius:18px; background:rgba(255,255,255,.02);
+      border:1px solid rgba(212,175,106,.12);
     }
-    .countdown .top{font-size:14px;color:#f4df95}
-    .countdown .subtop{font-size:13px;color:var(--muted);margin-top:6px}
-    .countdown .timer{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
-    .count-card{
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:22px;padding:14px;text-align:center;
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    .label{color:var(--muted); font-size:13px; font-weight:700}
+    .value{margin-top:8px; font-size:24px; font-weight:900; letter-spacing:-.03em}
+    .sub{margin-top:6px; color:var(--soft); font-size:13px; line-height:1.45}
+    section{padding:32px 0}
+    .section-head{
+      display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:18px; flex-wrap:wrap;
     }
-    .count-card.active{
-      transform:translateY(-2px) scale(1.02);
-      border-color:rgba(212,175,55,0.40);
-      box-shadow:0 0 0 1px rgba(212,175,55,0.16), 0 0 24px rgba(212,175,55,0.18);
+    .kicker{
+      color:var(--gold2); text-transform:uppercase; font-size:12px; font-weight:900; letter-spacing:.16em;
     }
-    .count-card .num{font-size:28px;font-weight:700;color:#fff;text-shadow:0 0 18px rgba(255,255,255,0.10)}
-    .count-card .lab{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.18em}
-    .flip{animation:flipTick 0.35s ease}
-    @keyframes flipTick{
-      0%{transform:translateY(-4px);opacity:0.6}
-      100%{transform:translateY(0);opacity:1}
+    h2{margin:8px 0 0; font-size:clamp(28px, 4vw, 46px); letter-spacing:-.03em}
+    .section-copy{color:var(--muted); max-width:780px; line-height:1.78}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .card{
+      padding:22px; border-radius:22px; background:var(--panel2);
+      border:1px solid var(--stroke); box-shadow:var(--shadow);
     }
-    .small-note{font-size:13px;color:var(--muted);margin-top:10px}
-    .nft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
-    .nft-card{
-      padding:18px;border-radius:22px;background:rgba(255,255,255,0.04);border:1px solid var(--line)
+    .card h3{margin:10px 0 10px; font-size:20px}
+    .card p{margin:0; color:var(--muted); line-height:1.75}
+    .icon{
+      width:48px; height:48px; border-radius:16px; display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(212,175,106,.12), rgba(255,255,255,.03));
+      border:1px solid rgba(212,175,106,.14); font-size:22px;
     }
-    .nft-title{font-size:18px;font-weight:700}
+    .two-col{display:grid; grid-template-columns:1.02fr .98fr; gap:18px}
+    .tokenomics-wrap{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    .token-list{display:grid; gap:12px}
+    .token-row{
+      display:grid; grid-template-columns:90px 1fr auto; gap:12px; align-items:center;
+      padding:12px 14px; border-radius:16px; background:rgba(255,255,255,.02);
+      border:1px solid rgba(212,175,106,.10);
+    }
+    .token-bar{height:10px; border-radius:999px; background:rgba(255,255,255,.06); overflow:hidden}
+    .token-bar span{
+      display:block; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--gold3), var(--gold2));
+    }
+    .small{color:var(--muted); font-size:13px}
+    .roadmap{display:grid; gap:14px}
+    .step{
+      display:grid; grid-template-columns:92px 1fr; gap:14px;
+      padding:16px; border-radius:18px; background:rgba(255,255,255,.02); border:1px solid rgba(212,175,106,.10);
+    }
+    .phase{
+      font-weight:900; color:var(--gold2); text-transform:uppercase; font-size:13px; letter-spacing:.08em;
+    }
+    .step h4{margin:0 0 8px; font-size:18px}
+    .step ul{margin:0; padding-left:18px; color:var(--muted); line-height:1.7}
+
+    .game-card{
+      position:relative; overflow:hidden;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(212,175,106,.10), transparent 22%),
+        var(--panel2);
+    }
+    .game-meta{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:8px 12px; border-radius:999px;
+      font-size:12px; font-weight:800; letter-spacing:.06em;
+      background:rgba(255,255,255,.02); border:1px solid rgba(212,175,106,.12); color:var(--soft);
+    }
+    .vault-grid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px;
+    }
+    .vault{
+      aspect-ratio:1/1;
+      border-radius:20px;
+      border:1px solid rgba(212,175,106,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
+        linear-gradient(180deg, #17120c, #100d09);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 26px rgba(0,0,0,.28);
+      position:relative;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease;
+      color:var(--gold2);
+      font-size:30px;
+      user-select:none;
+    }
+    .vault:hover:not(.opened):not(.locked){
+      transform:translateY(-2px);
+      border-color:rgba(240,212,154,.30);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 14px 30px rgba(0,0,0,.34);
+    }
+    .vault.opened{
+      cursor:default;
+      border-color:rgba(240,212,154,.35);
+      color:#0f0c08;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(255,250,236,.28), transparent 30%),
+        linear-gradient(135deg, var(--gold2), var(--gold));
+    }
+    .vault.locked{
+      cursor:not-allowed;
+      opacity:.55;
+      filter:grayscale(.15);
+    }
+    .vault small{
+      position:absolute; bottom:10px; left:50%; transform:translateX(-50%);
+      font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:800;
+    }
+    .game-panel{
+      margin-top:16px;
+      padding:18px;
+      border-radius:20px;
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(212,175,106,.12);
+      min-height:180px;
+    }
+    .game-panel h4{margin:0 0 8px; font-size:24px; color:var(--white)}
+    .game-panel p{margin:0; color:var(--muted); line-height:1.75}
+    .score-row{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;
+    }
+    .score-box{
+      padding:12px 14px; border-radius:16px; background:rgba(255,255,255,.02); border:1px solid rgba(212,175,106,.12);
+    }
+    .score-box .n{font-size:24px; font-weight:900; margin-top:6px}
+    .glow{
+      animation:glow 1.4s ease-in-out infinite alternate;
+    }
+    @keyframes glow{
+      from{box-shadow:0 0 0 rgba(240,212,154,0)}
+      to{box-shadow:0 0 28px rgba(240,212,154,.16)}
+    }
+    .cta-banner{
+      display:grid; grid-template-columns:1.1fr .9fr; gap:18px; align-items:center;
+      padding:24px; border-radius:26px; background:linear-gradient(135deg, rgba(212,175,106,.12), rgba(255,255,255,.03));
+      border:1px solid rgba(212,175,106,.14); box-shadow:var(--shadow);
+    }
+    .cta-banner h3{margin:0 0 10px; font-size:30px; letter-spacing:-.03em}
+    .cta-banner p{margin:0; color:var(--soft); line-height:1.75}
+    .badge-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
     .badge{
-      display:inline-block;margin-top:10px;padding:6px 10px;border-radius:999px;
-      border:1px solid var(--line);font-size:12px;color:var(--muted)
+      padding:8px 12px; border-radius:999px; background:rgba(255,255,255,.02);
+      border:1px solid rgba(212,175,106,.12); font-size:13px; color:var(--soft); font-weight:700;
     }
-    .jackpot-box{
-      padding:22px;border-radius:24px;
-      border:1px solid rgba(212,175,55,0.2);
-      background:linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.03));
-      box-shadow:0 0 28px rgba(212,175,55,0.08);
+    code.address{
+      display:block; margin-top:10px; padding:12px 14px; border-radius:14px;
+      background:rgba(255,255,255,.02); border:1px solid rgba(212,175,106,.12);
+      color:#efe3ca; word-break:break-all; font-size:13px;
     }
-    .manual-row{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:12px
+    .footer{padding:36px 0 56px; color:var(--muted)}
+    .footer-grid{
+      display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; align-items:center;
+      padding-top:18px; border-top:1px solid rgba(212,175,106,.10);
     }
-    .manual-input{
-      flex:1;min-width:180px;
-      background:rgba(255,255,255,0.06);
-      color:#fff;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px 14px;
-      outline:none;
+
+    @media (max-width: 980px){
+      .hero-grid,.grid-3,.two-col,.tokenomics-wrap,.cta-banner{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .step{grid-template-columns:1fr}
     }
-    footer{margin:24px 0 8px}
-    .footer-inner{padding:22px;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
-    .link-row{display:flex;gap:10px;flex-wrap:wrap}
-    .notice{font-size:13px;color:var(--muted);margin-top:10px}
-    @media (max-width: 920px){
-      .hero,.grid4,.grid3,.grid2,.roadmap-grid,.launch-band,.countdown .timer,.nft-grid{grid-template-columns:1fr}
-      h2{font-size:38px}
-      .header{align-items:flex-start;flex-direction:column}
+    @media (max-width: 640px){
+      .container{width:min(var(--max), calc(100% - 20px))}
+      .hero{padding-top:46px}
+      .hero-card{padding:16px}
+      .stats,.score-row{grid-template-columns:1fr}
+      .vault-grid{grid-template-columns:repeat(2,1fr)}
+      .token-row{grid-template-columns:70px 1fr auto}
+      .actions{display:none}
+      .logo-text span{display:none}
+      .logo-text strong{font-size:20px}
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card header">
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <h1>LUNAQ</h1>
-          <div class="sub">Identity for the Web3 Era</div>
-        </div>
-      </div>
-      <div class="nav">
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span class="logo-text">
+          <strong>LUNAQ</strong>
+          <span>Luxury Web3 Identity</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
         <a href="#about">About</a>
-        <a href="#why">Why LUNAQ</a>
-        <a href="#claim-area">Open NFT</a>
-        <a href="#roadmap">Roadmap</a>
+        <a href="#utility">Utility</a>
+        <a href="#vaultgame">Vault Game</a>
         <a href="#tokenomics">Tokenomics</a>
-        <a href="https://t.me/lunaqofficial" target="_blank">Telegram</a>
-        <a href="https://x.com/lunaq_office" target="_blank">X</a>
-        <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank"><button class="btn btn-primary">View on Element</button></a>
+        <a href="#roadmap">Roadmap</a>
+      </nav>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="https://bscscan.com/token/0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank" rel="noopener">BscScan</a>
+        <a class="btn btn-primary" href="https://app.apeswap.finance/swap" target="_blank" rel="noopener">Buy LUNAQ</a>
       </div>
     </div>
+  </header>
 
-    <div class="hero">
-      <div class="card hero-left">
-        <div class="eyebrow">Launching Soon • BSC • Web3 Identity • Wallet Connect</div>
-        <h2>Weekend early phase launch.</h2>
-        <p class="lead">
-          LUNAQ is a fixed-supply BEP20 token designed for digital identity, premium membership access, future staking, and ecosystem utility on BNB Smart Chain.
-          This is the final accumulation window before public trading. Early supporters position first for LUNAQ ID, staking access, and membership tiers.
-        </p>
-
-        <div class="countdown" id="countdownWrap">
-          <div class="top">Early phase countdown — limited liquidity goes live this weekend:</div>
-          <div class="subtop">Main liquidity on 12</div>
-          <div class="timer" id="countdown">
-            <div class="count-card" id="daysCard"><div class="num" id="days">00</div><div class="lab">Days</div></div>
-            <div class="count-card" id="hoursCard"><div class="num" id="hours">00</div><div class="lab">Hours</div></div>
-            <div class="count-card" id="minutesCard"><div class="num" id="minutes">00</div><div class="lab">Minutes</div></div>
-            <div class="count-card" id="secondsCard"><div class="num" id="seconds">00</div><div class="lab">Seconds</div></div>
-          </div>
-        </div>
-
-        <div class="hero-buttons">
-          <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
-          <button class="btn btn-ghost" id="addTokenBtn">Add LUNAQ to Wallet</button>
-          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
-          <a href="https://x.com/lunaq_office" target="_blank"><button class="btn btn-ghost">X</button></a>
-          <a href="https://pancakeswap.finance/swap?outputCurrency=0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank"><button class="btn btn-ghost">Buy After Launch</button></a>
-          <button class="btn btn-ghost" id="switchBtn">Switch to BSC</button>
-        </div>
-
-        <div class="launch-band">
-          <div class="launch-box">
-            <div class="label">Status</div>
-            <div class="value">Early Phase Window</div>
-            <div class="small-note">Limited liquidity first, then main rollout</div>
-          </div>
-          <div class="launch-box">
-            <div class="label">Main Liquidity</div>
-            <div class="value">12</div>
-            <div class="small-note">Primary liquidity phase remains scheduled</div>
-          </div>
-          <div class="launch-box">
-            <div class="label">Supply</div>
-            <div class="value">7,777,777</div>
-            <div class="small-note">Low fixed supply before broader market exposure</div>
-          </div>
-        </div>
-
-        <div class="grid3" style="margin-top:16px">
-          <div class="stat">
-            <div class="label">Total Supply</div>
-            <div class="value" id="supplyValue">7,777,777</div>
-          </div>
-          <div class="stat">
-            <div class="label">Chain</div>
-            <div class="value" id="chainValue">BSC</div>
-          </div>
-          <div class="stat">
-            <div class="label">Your Balance</div>
-            <div class="value" id="balanceValue">0</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card hero-right" id="wallet">
-        <div class="panel-section">
-          <div class="tiny">Wallet panel</div>
-          <h3 style="margin:8px 0 0;font-size:28px">Live connection</h3>
-        </div>
-        <div class="panel-section">
-          <div class="tiny">Status</div>
-          <div id="statusText" style="margin-top:10px">Ready</div>
-        </div>
-        <div class="panel-section">
-          <div class="tiny">Connected wallet</div>
-          <div id="walletText" style="margin-top:10px" class="mono">No wallet connected</div>
-        </div>
-        <div class="panel-section">
-          <div class="tiny">Network</div>
-          <div id="networkText" style="margin-top:10px">Not connected</div>
-        </div>
-        <div class="panel-section jackpot-box">
-          <div class="tiny">Jackpot live</div>
-          <div id="jackpotText" style="margin-top:10px;font-size:30px;font-weight:700">0 BNB</div>
-          <div class="small-note">Current jackpot pool on the NFT contract.</div>
-        </div>
-        <div class="panel-section">
-          <div class="tiny">Jackpot tickets</div>
-          <div id="ticketsText" style="margin-top:10px">0</div>
-        </div>
-        <div class="panel-section">
-          <div class="tiny">Token address</div>
-          <div class="mono" id="tokenText" style="margin-top:10px">0x7ed17dde21a63df433839fb37f3cf1460576a2ac</div>
-          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn btn-ghost" id="copyBtn">Copy address</button>
-            <button class="btn btn-ghost" id="copyNftBtn">Copy NFT contract</button>
-          </div>
-        </div>
-        <div class="notice">Use MetaMask, Bitget Wallet, or any injected EVM wallet. On mobile, after switching to BSC, tap Connect Wallet again if needed.</div>
-      </div>
-    </div>
-
-    <div class="card section" id="claim-area">
-      <div class="tiny">NFT Claim</div>
-      <h3 style="font-size:34px;margin:10px 0 0">Open your NFT and enter the jackpot</h3>
-      <p class="lead" style="font-size:16px">
-        If you own a LUNAQ Jackpot NFT, you can open it once on this page. Each opened NFT receives a reward of 500 or 800 LUNAQ and gets one ticket in the jackpot.
-      </p>
-
-      <div class="panel-section">
-        <div class="tiny">Your NFT status</div>
-        <div id="nftStatus" style="margin-top:10px">Connect wallet to load your NFTs.</div>
-
-        <div class="manual-row">
-          <input id="manualTokenId" class="manual-input" type="number" min="1" placeholder="Manual Token ID for mobile fallback" />
-          <button class="btn btn-ghost btn-small" id="checkManualBtn">Check Token ID</button>
-          <button class="btn btn-primary btn-small" id="loadNftsBtn">Load My NFTs</button>
-        </div>
-
-        <div class="small-note">
-          Mobile fallback: if auto-detect is slow, enter your Token ID manually and press “Check Token ID”.
-        </div>
-      </div>
-
-      <div id="nftList" class="nft-grid"></div>
-    </div>
-
-    <div class="grid3" id="about">
-      <div class="card box">
-        <h3>Scarcity by design</h3>
-        <p class="lead" style="font-size:16px">Fixed supply at 7,777,777 LUNAQ with a premium long-term positioning model built for scarcity and clarity.</p>
-      </div>
-      <div class="card box">
-        <h3>Membership utility</h3>
-        <p class="lead" style="font-size:16px">Use LUNAQ for gated communities, premium access, digital identity, and ecosystem unlocks.</p>
-      </div>
-      <div class="card box">
-        <h3>Governance-ready</h3>
-        <p class="lead" style="font-size:16px">Prepared for future DAO voting, staking, and holder-tier utility.</p>
-      </div>
-    </div>
-
-    <div class="card section" id="why">
-      <div class="tiny">Why early matters</div>
-      <h3 style="font-size:34px;margin:10px 0 0">Built for utility, not just speculation</h3>
-      <div class="grid4">
-        <div class="why-box">
-          <h3 style="font-size:22px;margin:0">Web3 Identity</h3>
-          <p>A unique wallet-linked identity layer designed for future on-chain verification and access control.</p>
-        </div>
-        <div class="why-box">
-          <h3 style="font-size:22px;margin:0">Membership Access</h3>
-          <p>Premium communities, gated features, holder-only access, and digital membership architecture.</p>
-        </div>
-        <div class="why-box">
-          <h3 style="font-size:22px;margin:0">Future Staking</h3>
-          <p>Early supporters are positioned first for future staking rewards and ecosystem retention mechanics.</p>
-        </div>
-        <div class="why-box">
-          <h3 style="font-size:22px;margin:0">Early Positioning</h3>
-          <p>A low-supply structure built to reward attention and participation before large-scale rollout.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card section" id="roadmap">
-      <div class="tiny">Roadmap</div>
-      <h3 style="font-size:34px;margin:10px 0 0">LUNAQ roadmap — 16 months</h3>
-      <p class="lead" style="font-size:16px">A phased rollout focused on traction first, then utility, then identity and real-world access use cases.</p>
-      <div class="roadmap-grid">
-        <div class="phase"><div class="months">Months 1–2</div><h4>Foundation</h4><ul><li>Deploy LUNAQ on BNB Smart Chain</li><li>Verify contract on BscScan</li><li>Launch branding, website, and wallet connect</li><li>Open Telegram and X channels</li></ul></div>
-        <div class="phase"><div class="months">Months 3–4</div><h4>Liquidity & Visibility</h4><ul><li>Add PancakeSwap liquidity</li><li>Appear on DexScreener and DEXTools</li><li>Start community growth campaigns</li><li>Run early awareness pushes</li></ul></div>
-        <div class="phase"><div class="months">Months 5–6</div><h4>LUNAQ ID</h4><ul><li>Launch unique wallet-linked identity code</li><li>Enable wallet login and profile creation</li><li>Generate unique LUNAQ ID</li></ul></div>
-        <div class="phase"><div class="months">Months 7–8</div><h4>Membership System</h4><ul><li>Launch holder levels based on token amount</li><li>Unlock gated communities and premium access</li><li>Connect holder status to utility features</li></ul></div>
-        <div class="phase"><div class="months">Months 9–10</div><h4>Platform Utility</h4><ul><li>Launch QR and code verification flow</li><li>Add user dashboard</li><li>Enable access verification for partners</li></ul></div>
-        <div class="phase"><div class="months">Months 11–12</div><h4>Staking & Rewards</h4><ul><li>Launch staking for holders</li><li>Introduce reward mechanics</li><li>Add loyalty incentives</li></ul></div>
-        <div class="phase"><div class="months">Months 13–14</div><h4>Ecosystem Expansion</h4><ul><li>Explore NFT integration</li><li>Enable marketplace or partner utility</li><li>Expand on-chain identity usage</li></ul></div>
-        <div class="phase"><div class="months">Months 15–16</div><h4>Global Utility</h4><ul><li>Prepare mobile-first flow</li><li>Expand real-world access integrations</li><li>Position LUNAQ as digital identity infrastructure</li></ul></div>
-      </div>
-    </div>
-
-    <div class="grid2" id="tokenomics">
-      <div class="card section">
-        <div class="tiny">Tokenomics</div>
-        <h3 style="font-size:34px;margin:10px 0 0">Clean launch structure</h3>
-        <div class="list-item"><span>Community</span><strong>35%</strong></div>
-        <div class="list-item"><span>Treasury</span><strong>20%</strong></div>
-        <div class="list-item"><span>Liquidity</span><strong>15%</strong></div>
-        <div class="list-item"><span>Development</span><strong>15%</strong></div>
-        <div class="list-item"><span>Team</span><strong>10%</strong></div>
-        <div class="list-item"><span>Partners</span><strong>5%</strong></div>
-      </div>
-
-      <div class="card section">
-        <div class="tiny">Official links</div>
-        <h3 style="font-size:34px;margin:10px 0 0">Project access</h3>
-        <div class="list-item"><a href="https://bscscan.com/token/0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank">BscScan verified contract</a><strong>Open</strong></div>
-        <div class="list-item"><a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank">Element collection</a><strong>Open</strong></div>
-        <div class="list-item"><a href="https://t.me/lunaqofficial" target="_blank">Telegram announcements</a><strong>Open</strong></div>
-        <div class="list-item"><a href="https://t.me/lunaqcommunity" target="_blank">Telegram community</a><strong>Open</strong></div>
-        <div class="list-item"><a href="https://x.com/lunaq_office" target="_blank">Official X account</a><strong>Open</strong></div>
-        <div class="notice">Live on GitHub Pages or Vercel. You can move to a custom domain later without rebuilding the site.</div>
-      </div>
-    </div>
-
-    <footer>
-      <div class="card footer-inner">
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
         <div>
-          <div style="font-size:24px;font-weight:700">LUNAQ</div>
-          <div class="sub">Elegant utility. Clear token structure. Wallet-first onboarding.</div>
-        </div>
-        <div class="link-row">
-          <a href="https://t.me/lunaqofficial" target="_blank"><button class="btn btn-ghost">Telegram</button></a>
-          <a href="https://x.com/lunaq_office" target="_blank"><button class="btn btn-ghost">X</button></a>
-          <a href="https://element.market/collections/lunaq-jackpot-nft-2" target="_blank"><button class="btn btn-primary">View on Element</button></a>
-        </div>
-      </div>
-    </footer>
-  </div>
+          <span class="eyebrow"><span class="dot"></span> BNB Chain • Limited Supply • Premium Utility</span>
+          <h1><span class="gold">LUNAQ</span><br>Identity for the Web3 elite.</h1>
+          <p class="lead">
+            LUNAQ is a BEP-20 token built on BNB Smart Chain for digital identity, premium access, community utility, and future staking. 
+            This 2.0 version keeps the luxury tone, removes NFT noise completely, and adds a refined mini-game that keeps users engaged longer.
+          </p>
 
-  <script>
-    const TOKEN_ADDRESS = "0x7ed17dde21a63df433839fb37f3cf1460576a2ac";
-    const NFT_CONTRACT = "0x9B11FbAaB535134c64D764E938Be4f652E4c0E6E";
-    const CHAIN_ID_HEX = "0x38";
-    const CHAIN_ID_NUM = 56;
-    const CHAIN_NAME = "BNB Smart Chain";
-    const RPC_URL = "https://bsc-dataseed.binance.org";
-    const EXPLORER = "https://bscscan.com";
-    const CURRENCY = { name: "BNB", symbol: "BNB", decimals: 18 };
-    const LAUNCH_AT = new Date("2026-03-29T18:00:00").getTime();
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://app.apeswap.finance/swap" target="_blank" rel="noopener">Buy on ApeSwap</a>
+            <a class="btn btn-ghost" href="https://dexscreener.com/bsc" target="_blank" rel="noopener">View Chart</a>
+            <a class="btn btn-ghost" href="#vaultgame">Play the Vault</a>
+          </div>
 
-    const ERC20_ABI = [
-      "function balanceOf(address owner) view returns (uint256)",
-      "function decimals() view returns (uint8)",
-      "function symbol() view returns (string)",
-      "function totalSupply() view returns (uint256)"
-    ];
+          <div class="hero-meta">
+            <span>Fixed Supply: 7,777,777</span>
+            <span>Staking: Coming Soon</span>
+            <span>Luxury-first presentation</span>
+          </div>
 
-    const NFT_ABI = [
-      "function ownerOf(uint256 tokenId) view returns (address)",
-      "function claim(uint256 tokenId)",
-      "function claimed(uint256 tokenId) view returns (bool)",
-      "function ticketsCount() view returns (uint256)",
-      "function jackpotBalance() view returns (uint256)",
-      "function totalMinted() view returns (uint256)",
-      "function tokenURI(uint256 tokenId) view returns (string)"
-    ];
-
-    const statusText = document.getElementById("statusText");
-    const walletText = document.getElementById("walletText");
-    const networkText = document.getElementById("networkText");
-    const chainValue = document.getElementById("chainValue");
-    const balanceValue = document.getElementById("balanceValue");
-    const supplyValue = document.getElementById("supplyValue");
-    const nftStatus = document.getElementById("nftStatus");
-    const nftList = document.getElementById("nftList");
-    const jackpotText = document.getElementById("jackpotText");
-    const ticketsText = document.getElementById("ticketsText");
-    const connectBtn = document.getElementById("connectBtn");
-    const loadNftsBtn = document.getElementById("loadNftsBtn");
-    const manualTokenId = document.getElementById("manualTokenId");
-    const checkManualBtn = document.getElementById("checkManualBtn");
-
-    function setStatus(v){ statusText.textContent = v; }
-    function shortAddress(address){ return address ? `${address.slice(0,6)}...${address.slice(-4)}` : ""; }
-
-    async function getProvider(){
-      if(!window.ethereum) throw new Error("No wallet provider found");
-      return new ethers.BrowserProvider(window.ethereum);
-    }
-
-    async function getConnectedAccount(provider){
-      const accounts = await provider.send("eth_accounts", []);
-      return accounts.length ? accounts[0] : null;
-    }
-
-    function renderChain(chainId){
-      if(Number(chainId) === CHAIN_ID_NUM){
-        networkText.textContent = CHAIN_NAME;
-        chainValue.textContent = "BSC";
-      }else{
-        networkText.textContent = `Chain ${chainId}`;
-        chainValue.textContent = `Chain ${chainId}`;
-      }
-    }
-
-    async function readTokenData(account, provider){
-      try{
-        const token = new ethers.Contract(TOKEN_ADDRESS, ERC20_ABI, provider);
-        const [decimals, totalSupplyRaw] = await Promise.all([
-          token.decimals(),
-          token.totalSupply()
-        ]);
-
-        const supply = Number(ethers.formatUnits(totalSupplyRaw, decimals));
-        supplyValue.textContent = supply.toLocaleString();
-
-        if(account){
-          const balanceRaw = await token.balanceOf(account);
-          const balance = Number(ethers.formatUnits(balanceRaw, decimals));
-          balanceValue.textContent = balance.toLocaleString(undefined,{maximumFractionDigits:4});
-        }
-      }catch(e){
-        balanceValue.textContent = "0";
-      }
-    }
-
-    async function loadJackpot(provider){
-      try{
-        const network = await provider.getNetwork();
-        if(Number(network.chainId) !== CHAIN_ID_NUM){
-          jackpotText.textContent = "Switch to BSC";
-          ticketsText.textContent = "Switch to BSC";
-          return;
-        }
-
-        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
-        const [jackpotRaw, tickets] = await Promise.all([
-          nft.jackpotBalance(),
-          nft.ticketsCount()
-        ]);
-
-        jackpotText.textContent = `${Number(ethers.formatEther(jackpotRaw)).toFixed(4)} BNB`;
-        ticketsText.textContent = tickets.toString();
-      }catch(e){
-        jackpotText.textContent = "Unavailable";
-        ticketsText.textContent = "Unavailable";
-      }
-    }
-
-    async function tryLoadTokenImage(provider, tokenId){
-      try{
-        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
-        const uri = await nft.tokenURI(tokenId);
-        const res = await fetch(uri);
-        const meta = await res.json();
-        return meta.image || "";
-      }catch(e){
-        return "";
-      }
-    }
-
-    function renderTokenCard(tokenId, alreadyClaimed, imageUrl){
-      return `
-        <div class="nft-card">
-          ${imageUrl ? `<img src="${imageUrl}" alt="NFT #${tokenId}" style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,0.08);margin-bottom:14px;" />` : ""}
-          <div class="nft-title">LUNAQ NFT #${tokenId}</div>
-          <div class="badge">${alreadyClaimed ? "Already Opened" : "Ready To Open"}</div>
-          <div class="small-note" style="margin-top:12px;">Reward: 500 or 800 LUNAQ + 1 jackpot ticket</div>
-          <div style="margin-top:16px;">
-            ${
-              alreadyClaimed
-                ? `<button class="btn btn-ghost btn-small" disabled>Already Opened</button>`
-                : `<button class="btn btn-primary btn-small" onclick="claimNFT(${tokenId})">Open NFT</button>`
-            }
+          <div class="badge-row">
+            <span class="badge">NFT removed</span>
+            <span class="badge">Premium dark + gold design</span>
+            <span class="badge">Mini-game integrated</span>
           </div>
         </div>
-      `;
-    }
 
-    async function checkManualToken(){
-      try{
-        nftList.innerHTML = "";
-        const value = manualTokenId.value.trim();
-        if(!value){
-          setStatus("Please enter a Token ID.");
-          return;
-        }
-
-        const provider = await getProvider();
-        const account = await getConnectedAccount(provider);
-
-        if(!account){
-          setStatus("Connect wallet first.");
-          return;
-        }
-
-        const network = await provider.getNetwork();
-        if(Number(network.chainId) !== CHAIN_ID_NUM){
-          setStatus("Switch to BSC first.");
-          return;
-        }
-
-        const tokenId = Number(value);
-        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
-        const owner = await nft.ownerOf(tokenId);
-
-        if(owner.toLowerCase() !== account.toLowerCase()){
-          nftStatus.innerHTML = "That Token ID is not owned by the connected wallet.";
-          return;
-        }
-
-        const alreadyClaimed = await nft.claimed(tokenId);
-        const imageUrl = await tryLoadTokenImage(provider, tokenId);
-
-        nftStatus.innerHTML = `Token ID #${tokenId} is owned by this wallet.`;
-        nftList.innerHTML = renderTokenCard(tokenId, alreadyClaimed, imageUrl);
-      }catch(e){
-        nftStatus.innerHTML = "Could not verify that Token ID.";
-      }
-    }
-
-    async function loadNFTData(account, provider){
-      try{
-        const network = await provider.getNetwork();
-        if(Number(network.chainId) !== CHAIN_ID_NUM){
-          nftStatus.innerHTML = "Switch to BSC first, then tap Connect Wallet again if needed.";
-          nftList.innerHTML = "";
-          return;
-        }
-
-        nftStatus.innerHTML = "Loading your NFTs... This may take a few seconds on mobile.";
-        nftList.innerHTML = "";
-
-        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, provider);
-        const mintedRaw = await nft.totalMinted();
-        const minted = Number(mintedRaw);
-
-        if(minted === 0){
-          nftStatus.innerHTML = "No NFTs minted yet.";
-          return;
-        }
-
-        const owned = [];
-        const scanLimit = Math.min(minted, 120);
-
-        for(let tokenId = 1; tokenId <= scanLimit; tokenId++){
-          try{
-            const owner = await nft.ownerOf(tokenId);
-            if(owner.toLowerCase() === account.toLowerCase()){
-              const alreadyClaimed = await nft.claimed(tokenId);
-              owned.push({ tokenId, alreadyClaimed });
-            }
-          }catch(_){}
-        }
-
-        if(owned.length === 0){
-          nftStatus.innerHTML = "No NFTs found automatically. On mobile, use the manual Token ID field above.";
-          nftList.innerHTML = "";
-          return;
-        }
-
-        nftStatus.innerHTML = `Found ${owned.length} NFT(s) in this wallet.`;
-
-        const cards = [];
-        for(const item of owned){
-          const imageUrl = await tryLoadTokenImage(provider, item.tokenId);
-          cards.push(renderTokenCard(item.tokenId, item.alreadyClaimed, imageUrl));
-        }
-
-        nftList.innerHTML = cards.join("");
-      }catch(e){
-        nftStatus.innerHTML = "Could not load your NFTs automatically. Try the manual Token ID field above.";
-        nftList.innerHTML = "";
-      }
-    }
-
-    async function connectWallet(){
-      if(!window.ethereum){
-        setStatus("Install MetaMask, Bitget Wallet, or another EVM wallet first.");
-        return;
-      }
-
-      try{
-        setStatus("Connecting wallet...");
-        const provider = await getProvider();
-        const accounts = await provider.send("eth_requestAccounts", []);
-        const account = accounts[0];
-        const network = await provider.getNetwork();
-
-        walletText.textContent = account;
-        renderChain(network.chainId);
-        connectBtn.textContent = shortAddress(account);
-
-        await readTokenData(account, provider);
-        await loadJackpot(provider);
-
-        if(Number(network.chainId) !== CHAIN_ID_NUM){
-          setStatus("Wallet connected. Please switch to BSC.");
-          nftStatus.innerHTML = "Tap Switch to BSC, then Connect Wallet again if needed.";
-          nftList.innerHTML = "";
-          return;
-        }
-
-        setStatus("Wallet connected.");
-        await loadNFTData(account, provider);
-      }catch(e){
-        setStatus("Wallet connection cancelled or failed.");
-      }
-    }
-
-    async function claimNFT(tokenId){
-      try{
-        if(!window.ethereum){
-          setStatus("Install a wallet first.");
-          return;
-        }
-
-        const provider = await getProvider();
-        const network = await provider.getNetwork();
-
-        if(Number(network.chainId) !== CHAIN_ID_NUM){
-          setStatus("Switch to BSC before opening NFT.");
-          return;
-        }
-
-        const signer = await provider.getSigner();
-        const account = await signer.getAddress();
-        const nft = new ethers.Contract(NFT_CONTRACT, NFT_ABI, signer);
-
-        setStatus(`Opening NFT #${tokenId}...`);
-        const tx = await nft.claim(tokenId);
-        await tx.wait();
-
-        setStatus(`NFT #${tokenId} opened successfully.`);
-        await readTokenData(account, provider);
-        await loadJackpot(provider);
-        await loadNFTData(account, provider);
-      }catch(e){
-        setStatus("Open NFT failed or was cancelled.");
-      }
-    }
-
-    async function switchToBSC(){
-      if(!window.ethereum){
-        setStatus("Install a wallet first.");
-        return;
-      }
-
-      try{
-        await window.ethereum.request({
-          method:"wallet_switchEthereumChain",
-          params:[{chainId: CHAIN_ID_HEX}]
-        });
-
-        setStatus("Switched to BSC. If wallet disconnects on mobile, tap Connect Wallet again.");
-
-        const provider = await getProvider();
-        const network = await provider.getNetwork();
-        renderChain(network.chainId);
-        await loadJackpot(provider);
-
-        const account = await getConnectedAccount(provider);
-        if(account && Number(network.chainId) === CHAIN_ID_NUM){
-          walletText.textContent = account;
-          connectBtn.textContent = shortAddress(account);
-          await readTokenData(account, provider);
-        }
-      }catch(err){
-        if(err.code === 4902){
-          try{
-            await window.ethereum.request({
-              method:"wallet_addEthereumChain",
-              params:[{
-                chainId: CHAIN_ID_HEX,
-                chainName: CHAIN_NAME,
-                nativeCurrency: CURRENCY,
-                rpcUrls:[RPC_URL],
-                blockExplorerUrls:[EXPLORER]
-              }]
-            });
-            setStatus("BNB Smart Chain added. Tap Connect Wallet.");
-          }catch(e){
-            setStatus("Could not add BSC to wallet.");
-          }
-        }else{
-          setStatus("Network switch failed.");
-        }
-      }
-    }
-
-    async function addTokenToWallet(){
-      if(!window.ethereum){
-        setStatus("Install a wallet first.");
-        return;
-      }
-      try{
-        await window.ethereum.request({
-          method:"wallet_watchAsset",
-          params:{
-            type:"ERC20",
-            options:{
-              address:TOKEN_ADDRESS,
-              symbol:"LUNAQ",
-              decimals:18
-            }
-          }
-        });
-        setStatus("LUNAQ add-token prompt opened.");
-      }catch(e){
-        setStatus("Could not open add-token prompt.");
-      }
-    }
-
-    async function copyAddress(){
-      try{
-        await navigator.clipboard.writeText(TOKEN_ADDRESS);
-        setStatus("Token address copied.");
-      }catch(e){
-        setStatus("Could not copy token address.");
-      }
-    }
-
-    async function copyNftAddress(){
-      try{
-        await navigator.clipboard.writeText(NFT_CONTRACT);
-        setStatus("NFT contract address copied.");
-      }catch(e){
-        setStatus("Could not copy NFT contract address.");
-      }
-    }
-
-    let lastValues = { days:null, hours:null, minutes:null, seconds:null };
-
-    function animateValue(el, cardEl, value, key){
-      if(lastValues[key] !== value){
-        el.textContent = String(value).padStart(2, "0");
-        el.classList.remove("flip");
-        void el.offsetWidth;
-        el.classList.add("flip");
-        cardEl.classList.remove("active");
-        void el.offsetWidth;
-        cardEl.classList.add("active");
-        lastValues[key] = value;
-      }
-    }
-
-    function updateCountdown(){
-      const now = Date.now();
-      let diff = LAUNCH_AT - now;
-
-      if (diff <= 0){
-        document.getElementById("countdownWrap").innerHTML = `
-          <div class="top">Early phase countdown</div>
-          <div class="subtop">Main liquidity on 12</div>
-          <div class="timer">
-            <div class="count-card active" style="grid-column:1/-1;">
-              <div class="num">LIVE</div>
-              <div class="lab">Early Phase Active</div>
+        <aside class="panel hero-card">
+          <h3>Core Snapshot</h3>
+          <div class="stats">
+            <div class="stat">
+              <div class="label">Supply</div>
+              <div class="value">7,777,777</div>
+              <div class="sub">A limited structure with stronger scarcity optics.</div>
+            </div>
+            <div class="stat">
+              <div class="label">Chain</div>
+              <div class="value">BSC</div>
+              <div class="sub">Fast, accessible, and retail-friendly onboarding.</div>
+            </div>
+            <div class="stat">
+              <div class="label">Focus</div>
+              <div class="value">Identity</div>
+              <div class="sub">Positioned around access, prestige, and future utility.</div>
+            </div>
+            <div class="stat">
+              <div class="label">Staking</div>
+              <div class="value">Soon</div>
+              <div class="sub">Reserved for a later phase after stronger foundations.</div>
             </div>
           </div>
+          <code class="address">Token contract: 0x7ed17dde21a63df433839fb37f3cf1460576a2ac</code>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">About</div>
+            <h2>A cleaner narrative with stronger premium positioning.</h2>
+          </div>
+          <p class="section-copy">
+            This version is built to feel more exclusive, more focused, and more memorable. It keeps the strongest parts of the LUNAQ story visible while removing distractions.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🪪</div>
+            <h3>Digital Identity</h3>
+            <p>LUNAQ is positioned as a wallet-linked identity token with room for future access control, verification layers, and premium member logic.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🔐</div>
+            <h3>Premium Access</h3>
+            <p>The token can support gated communities, exclusive sections, holder recognition, and curated member experiences without cluttering the main experience.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📈</div>
+            <h3>Refined Launch Optics</h3>
+            <p>This redesign keeps utility, tokenomics, and roadmap visible while presenting the brand with more confidence and control.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="utility">
+      <div class="container two-col">
+        <div class="card">
+          <div class="kicker">Utility</div>
+          <h2>Built for access, status, and long-term retention</h2>
+          <p class="section-copy">
+            The strongest version of LUNAQ is one that feels focused: low fixed supply, premium membership positioning, identity-linked utility, and future staking introduced at the right time.
+          </p>
+
+          <div class="roadmap" style="margin-top:18px">
+            <div class="step">
+              <div class="phase">Use Case 01</div>
+              <div>
+                <h4>Wallet-linked identity</h4>
+                <ul>
+                  <li>identity-linked community positioning</li>
+                  <li>wallet-based access verification</li>
+                  <li>future dashboard and profile utility</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="phase">Use Case 02</div>
+              <div>
+                <h4>Premium membership access</h4>
+                <ul>
+                  <li>holder-only sections and private groups</li>
+                  <li>rank-based or status-based access</li>
+                  <li>cleaner long-term utility framing</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="phase">Use Case 03</div>
+              <div>
+                <h4>Future staking, introduced later</h4>
+                <ul>
+                  <li>shown as “Coming Soon” only</li>
+                  <li>not overpushed before stronger foundations</li>
+                  <li>used as retention instead of launch hype</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside id="vaultgame" class="card game-card">
+          <div class="kicker">Mini-Game</div>
+          <h2 style="font-size:32px">The LUNAQ Vault</h2>
+          <p class="section-copy">
+            Open three premium vaults and collect identity fragments. The result creates a final LUNAQ title. It is short, elegant, and gives visitors a reason to stay.
+          </p>
+
+          <div class="game-meta">
+            <span class="pill">3 Vaults</span>
+            <span class="pill">6 Fragments</span>
+            <span class="pill">Final Prestige Title</span>
+          </div>
+
+          <div class="vault-grid" id="vaultGrid">
+            <button class="vault glow" data-index="0" type="button">✦<small>Vault I</small></button>
+            <button class="vault glow" data-index="1" type="button">✦<small>Vault II</small></button>
+            <button class="vault glow" data-index="2" type="button">✦<small>Vault III</small></button>
+            <button class="vault glow" data-index="3" type="button">✦<small>Vault IV</small></button>
+            <button class="vault glow" data-index="4" type="button">✦<small>Vault V</small></button>
+            <button class="vault glow" data-index="5" type="button">✦<small>Vault VI</small></button>
+          </div>
+
+          <div class="score-row">
+            <div class="score-box">
+              <div class="label">Opened</div>
+              <div class="n" id="openedCount">0 / 3</div>
+            </div>
+            <div class="score-box">
+              <div class="label">Fragments</div>
+              <div class="n" id="fragmentCount">0</div>
+            </div>
+            <div class="score-box">
+              <div class="label">Status</div>
+              <div class="n" id="gameStatus">Active</div>
+            </div>
+          </div>
+
+          <div class="game-panel" id="gamePanel">
+            <h4>Enter the Vault</h4>
+            <p>
+              Choose any three vaults. Each vault reveals a premium fragment. Your combined set will generate a final LUNAQ prestige title at the end.
+            </p>
+            <div class="hero-cta" style="margin-top:16px">
+              <button class="btn btn-ghost" id="resetGame" type="button">Reset Vault</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="tokenomics">
+      <div class="container tokenomics-wrap">
+        <div class="card">
+          <div class="kicker">Tokenomics</div>
+          <h2>Simple, readable, premium-friendly structure</h2>
+          <p class="section-copy">
+            A clean token structure is easier to explain and stronger for first impressions.
+          </p>
+
+          <div class="token-list" style="margin-top:18px">
+            <div class="token-row">
+              <strong>35%</strong>
+              <div class="token-bar"><span style="width:35%"></span></div>
+              <span class="small">Community</span>
+            </div>
+            <div class="token-row">
+              <strong>20%</strong>
+              <div class="token-bar"><span style="width:20%"></span></div>
+              <span class="small">Treasury</span>
+            </div>
+            <div class="token-row">
+              <strong>15%</strong>
+              <div class="token-bar"><span style="width:15%"></span></div>
+              <span class="small">Liquidity</span>
+            </div>
+            <div class="token-row">
+              <strong>15%</strong>
+              <div class="token-bar"><span style="width:15%"></span></div>
+              <span class="small">Development</span>
+            </div>
+            <div class="token-row">
+              <strong>10%</strong>
+              <div class="token-bar"><span style="width:10%"></span></div>
+              <span class="small">Team</span>
+            </div>
+            <div class="token-row">
+              <strong>5%</strong>
+              <div class="token-bar"><span style="width:5%"></span></div>
+              <span class="small">Partners</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card">
+          <div class="kicker">Why this works better</div>
+          <h2 style="font-size:32px">Less noise. More confidence.</h2>
+          <p class="section-copy">
+            It is cleaner, sharper, and much easier to use as a GitHub Pages landing page without visual clutter. The mini-game adds engagement without making the project feel unserious.
+          </p>
+          <div class="badge-row">
+            <span class="badge">GitHub Pages ready</span>
+            <span class="badge">Luxury visual tone</span>
+            <span class="badge">Engagement built in</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Roadmap</div>
+            <h2>Prestige first. Complexity later.</h2>
+          </div>
+          <p class="section-copy">
+            The roadmap is presented in a more disciplined, premium way that fits a cleaner brand direction.
+          </p>
+        </div>
+
+        <div class="roadmap">
+          <div class="step">
+            <div class="phase">Phase 01</div>
+            <div>
+              <h4>Brand, liquidity, presentation</h4>
+              <ul>
+                <li>clean premium homepage</li>
+                <li>visible chart, contract, and social entry points</li>
+                <li>stronger first impression for new holders</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="phase">Phase 02</div>
+            <div>
+              <h4>Community growth & access logic</h4>
+              <ul>
+                <li>expand holder base and social proof</li>
+                <li>introduce gated member positioning</li>
+                <li>connect holding to status and access</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="phase">Phase 03</div>
+            <div>
+              <h4>Staking launch</h4>
+              <ul>
+                <li>simple single-token staking model</li>
+                <li>clean reward messaging</li>
+                <li>deployed after stronger liquidity foundations</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="phase">Phase 04</div>
+            <div>
+              <h4>Identity layer expansion</h4>
+              <ul>
+                <li>dashboard and profile utility</li>
+                <li>verification and access integrations</li>
+                <li>longer-term ecosystem positioning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="container">
+        <div class="cta-banner">
+          <div>
+            <div class="kicker">Community</div>
+            <h3>Build prestige before you build complexity.</h3>
+            <p>
+              Premium design, clearer utility messaging, and a refined vault experience help LUNAQ feel stronger, more memorable, and more investable.
+            </p>
+          </div>
+          <div class="hero-cta" style="justify-content:flex-start">
+            <a class="btn btn-primary" href="https://t.me/" target="_blank" rel="noopener">Join Telegram</a>
+            <a class="btn btn-ghost" href="https://x.com/" target="_blank" rel="noopener">Follow on X</a>
+            <a class="btn btn-ghost" href="https://bscscan.com/token/0x7ed17dde21a63df433839fb37f3cf1460576a2ac" target="_blank" rel="noopener">Open BscScan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="color:var(--white)">LUNAQ</strong>
+        <div style="margin-top:8px">Luxury-inspired identity. Cleaner utility. Sharper presentation.</div>
+      </div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap">
+        <a href="#about">About</a>
+        <a href="#vaultgame">Vault Game</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="https://app.apeswap.finance/swap" target="_blank" rel="noopener">Buy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const vaults = document.querySelectorAll('.vault');
+    const openedCount = document.getElementById('openedCount');
+    const fragmentCount = document.getElementById('fragmentCount');
+    const gameStatus = document.getElementById('gameStatus');
+    const gamePanel = document.getElementById('gamePanel');
+    const resetGame = document.getElementById('resetGame');
+
+    const fragments = [
+      { icon: "◈", name: "Aura", desc: "A refined sense of prestige and symbolic presence." },
+      { icon: "✧", name: "Signal", desc: "A natural instinct for timing, structure, and narrative." },
+      { icon: "⬡", name: "Access", desc: "A preference for gated spaces, exclusivity, and inner circles." },
+      { icon: "☾", name: "Scarcity", desc: "A deep alignment with rarity, restraint, and long-term value." },
+      { icon: "✦", name: "Conviction", desc: "A calm, focused confidence that outlasts noise." },
+      { icon: "⟡", name: "Status", desc: "An attraction to symbols of identity, rank, and selective belonging." }
+    ];
+
+    let picks = [];
+    let used = new Set();
+
+    function updateStats() {
+      openedCount.textContent = `${picks.length} / 3`;
+      fragmentCount.textContent = `${picks.length}`;
+      gameStatus.textContent = picks.length >= 3 ? 'Complete' : 'Active';
+    }
+
+    function renderIntro() {
+      gamePanel.innerHTML = `
+        <h4>Enter the Vault</h4>
+        <p>Choose any three vaults. Each vault reveals a premium fragment. Your combined set will generate a final LUNAQ prestige title at the end.</p>
+        <div class="hero-cta" style="margin-top:16px">
+          <button class="btn btn-ghost" id="resetGame" type="button">Reset Vault</button>
+        </div>
+      `;
+      document.getElementById('resetGame').addEventListener('click', resetAll);
+    }
+
+    function finalTitleFrom(picks) {
+      const names = picks.map(p => p.name);
+      if (names.includes("Scarcity") && names.includes("Status")) {
+        return {
+          title: "Sovereign Holder",
+          text: "Your combination points to exclusivity, symbolic value, and a preference for premium positioning."
+        };
+      }
+      if (names.includes("Access") && names.includes("Signal")) {
+        return {
+          title: "Quantum Member",
+          text: "Your result suggests strategic timing, curated entry, and a natural fit for gated ecosystems."
+        };
+      }
+      if (names.includes("Aura") && names.includes("Conviction")) {
+        return {
+          title: "Velvet Strategist",
+          text: "You combine presence with patience — a profile drawn to elegance, conviction, and durable narratives."
+        };
+      }
+      return {
+        title: "Celestial Curator",
+        text: "Your reveal reflects a taste for polish, identity, and a quieter kind of prestige that stands apart from noise."
+      };
+    }
+
+    function renderProgress() {
+      const fragmentHtml = picks.map(p => `
+        <div class="pill">${p.icon} ${p.name}</div>
+      `).join("");
+
+      if (picks.length < 3) {
+        gamePanel.innerHTML = `
+          <h4>Vault Fragments Collected</h4>
+          <p>${picks[picks.length - 1].desc}</p>
+          <div class="game-meta" style="margin-top:14px">${fragmentHtml}</div>
+          <div class="hero-cta" style="margin-top:16px">
+            <button class="btn btn-ghost" id="resetGame" type="button">Reset Vault</button>
+          </div>
         `;
-        return;
+      } else {
+        const final = finalTitleFrom(picks);
+        gamePanel.innerHTML = `
+          <h4>${final.title}</h4>
+          <p>${final.text}</p>
+          <div class="game-meta" style="margin-top:14px">${fragmentHtml}</div>
+          <div class="badge-row">
+            <span class="badge">3 vaults opened</span>
+            <span class="badge">Prestige title unlocked</span>
+            <span class="badge">LUNAQ identity revealed</span>
+          </div>
+          <div class="hero-cta" style="margin-top:16px">
+            <button class="btn btn-primary" id="resetGame" type="button">Play Again</button>
+          </div>
+        `;
       }
-
-      const days = Math.floor(diff / (1000*60*60*24));
-      diff -= days * (1000*60*60*24);
-      const hours = Math.floor(diff / (1000*60*60));
-      diff -= hours * (1000*60*60);
-      const minutes = Math.floor(diff / (1000*60));
-      diff -= minutes * (1000*60);
-      const seconds = Math.floor(diff / 1000);
-
-      animateValue(document.getElementById("days"), document.getElementById("daysCard"), days, "days");
-      animateValue(document.getElementById("hours"), document.getElementById("hoursCard"), hours, "hours");
-      animateValue(document.getElementById("minutes"), document.getElementById("minutesCard"), minutes, "minutes");
-      animateValue(document.getElementById("seconds"), document.getElementById("secondsCard"), seconds, "seconds");
+      document.getElementById('resetGame').addEventListener('click', resetAll);
     }
 
-    document.getElementById("connectBtn").addEventListener("click", connectWallet);
-    document.getElementById("switchBtn").addEventListener("click", switchToBSC);
-    document.getElementById("addTokenBtn").addEventListener("click", addTokenToWallet);
-    document.getElementById("copyBtn").addEventListener("click", copyAddress);
-    document.getElementById("copyNftBtn").addEventListener("click", copyNftAddress);
-    document.getElementById("loadNftsBtn").addEventListener("click", async () => {
-      try{
-        const provider = await getProvider();
-        const account = await getConnectedAccount(provider);
-        if(!account){
-          setStatus("Connect wallet first.");
-          return;
-        }
-        await loadNFTData(account, provider);
-      }catch(e){
-        setStatus("Could not load NFTs.");
+    function lockRemainingVaults() {
+      if (picks.length >= 3) {
+        vaults.forEach(v => {
+          if (!v.classList.contains('opened')) v.classList.add('locked');
+        });
       }
-    });
-    document.getElementById("checkManualBtn").addEventListener("click", checkManualToken);
-
-    window.claimNFT = claimNFT;
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    (async function boot(){
-      try{
-        if(!window.ethereum) return;
-
-        const provider = await getProvider();
-        await loadJackpot(provider);
-
-        const account = await getConnectedAccount(provider);
-        if(!account) return;
-
-        walletText.textContent = account;
-        connectBtn.textContent = shortAddress(account);
-
-        const network = await provider.getNetwork();
-        renderChain(network.chainId);
-
-        await readTokenData(account, provider);
-
-        if(Number(network.chainId) === CHAIN_ID_NUM){
-          setStatus("Wallet detected.");
-        } else {
-          setStatus("Wallet detected. Please switch to BSC.");
-        }
-      }catch(_){}
-    })();
-
-    if(window.ethereum && window.ethereum.on){
-      window.ethereum.on("accountsChanged", () => location.reload());
-      window.ethereum.on("chainChanged", () => setTimeout(() => location.reload(), 500));
     }
+
+    function openVault(button) {
+      if (button.classList.contains('opened') || button.classList.contains('locked') || picks.length >= 3) return;
+
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * fragments.length);
+      } while (used.has(idx) && used.size < fragments.length);
+
+      used.add(idx);
+      const fragment = fragments[idx];
+      picks.push(fragment);
+
+      button.classList.remove('glow');
+      button.classList.add('opened');
+      button.innerHTML = `${fragment.icon}<small>${fragment.name}</small>`;
+
+      updateStats();
+      renderProgress();
+      lockRemainingVaults();
+    }
+
+    function resetAll() {
+      picks = [];
+      used = new Set();
+      vaults.forEach(v => {
+        v.classList.remove('opened', 'locked');
+        v.classList.add('glow');
+      });
+      vaults[0].innerHTML = '✦<small>Vault I</small>';
+      vaults[1].innerHTML = '✦<small>Vault II</small>';
+      vaults[2].innerHTML = '✦<small>Vault III</small>';
+      vaults[3].innerHTML = '✦<small>Vault IV</small>';
+      vaults[4].innerHTML = '✦<small>Vault V</small>';
+      vaults[5].innerHTML = '✦<small>Vault VI</small>';
+      updateStats();
+      renderIntro();
+    }
+
+    vaults.forEach(v => v.addEventListener('click', () => openVault(v)));
+    renderIntro();
+    updateStats();
   </script>
 </body>
 </html>
